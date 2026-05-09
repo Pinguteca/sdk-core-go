@@ -27,6 +27,20 @@ type TokenSource interface {
 	Token(ctx context.Context) (string, error)
 }
 
+// RotatingTokenSource is a [TokenSource] whose cache can be explicitly
+// invalidated. The rotation interceptor calls [Invalidate] when the server
+// rejects a token mid-call (Connect's CodeUnauthenticated), so the next
+// [TokenSource.Token] call fetches a fresh token instead of re-serving the
+// cached-and-rejected one.
+//
+// Implementations whose tokens cannot be rotated (e.g. [StaticBearer]) should
+// not satisfy this interface; doing so would let callers wire the rotation
+// interceptor against a source that cannot actually recover.
+type RotatingTokenSource interface {
+	TokenSource
+	Invalidate()
+}
+
 // TokenSourceFunc is an adapter so a plain function can satisfy [TokenSource].
 type TokenSourceFunc func(ctx context.Context) (string, error)
 
@@ -74,26 +88,41 @@ func ClientCredentials(cfg ClientCredentialsConfig) (TokenSource, error) {
 	return &cachingOAuth2Source{cfg: cc}, nil
 }
 
+// cachingOAuth2Source caches the most recent token internally so [Invalidate]
+// can drop it and force a fresh fetch on the next [Token] call. This replaces
+// an earlier implementation that delegated caching to oauth2.ReuseTokenSource;
+// that helper does not expose cache invalidation, which would have left
+// rotation no-op.
 type cachingOAuth2Source struct {
-	src oauth2.TokenSource
 	cfg *clientcredentials.Config
+	tok *oauth2.Token
 	mu  sync.Mutex
 }
 
+// Token returns the cached access token if still valid, otherwise fetches a
+// fresh token via the OAuth2 client_credentials flow and caches it.
 func (s *cachingOAuth2Source) Token(ctx context.Context) (string, error) {
 	s.mu.Lock()
-	if s.src == nil {
-		// oauth2.ReuseTokenSource caches and refreshes on expiry.
-		s.src = oauth2.ReuseTokenSource(nil, s.cfg.TokenSource(ctx))
-	}
-	src := s.src
-	s.mu.Unlock()
+	defer s.mu.Unlock()
 
-	tok, err := src.Token()
+	if s.tok != nil && s.tok.Valid() {
+		return s.tok.AccessToken, nil
+	}
+
+	tok, err := s.cfg.TokenSource(ctx).Token()
 	if err != nil {
 		return "", fmt.Errorf("auth: oauth2 token: %w", err)
 	}
+	s.tok = tok
 	return tok.AccessToken, nil
+}
+
+// Invalidate clears the cached token. The next [Token] call will fetch a fresh
+// one. Safe to call concurrently with [Token].
+func (s *cachingOAuth2Source) Invalidate() {
+	s.mu.Lock()
+	s.tok = nil
+	s.mu.Unlock()
 }
 
 // Options configure [Interceptor].

@@ -1,0 +1,31 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.sh]
+end_of_line = lf
+
+[*.{cmd,bat,ps1}]
+end_of_line = crlf
+
+[*.{json,yaml,yml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.go]
+indent_style = tab
+
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+tab_width = 4
+
+[*.{xml,config,props,targets,nuspec,resx,ruleset,csproj,vbproj,sln,slnx}]
+indent_size = 2

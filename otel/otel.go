@@ -9,6 +9,7 @@ package otel
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -25,17 +26,10 @@ import (
 
 // Options configure [Interceptor].
 type Options struct {
-	// TracerName names the tracer in the global provider. Defaults to
-	// "github.com/Pinguteca/sdk-core-go/otel".
-	TracerName string
-	// Propagator overrides the propagator used for traceparent. Defaults to
-	// the global propagator.
-	Propagator propagation.TextMapPropagator
-	// RequestIDHeader names the correlation-ID header. Defaults to "X-Request-ID".
-	RequestIDHeader string
-	// GenerateRequestID is the source of new IDs when the inbound header is
-	// missing. Defaults to UUIDv7. Override under test.
+	Propagator        propagation.TextMapPropagator
 	GenerateRequestID func() string
+	TracerName        string
+	RequestIDHeader   string
 }
 
 // Interceptor returns a Connect interceptor that opens spans on outbound RPCs
@@ -67,8 +61,8 @@ func Interceptor(opts Options) connect.Interceptor {
 }
 
 type otelInterceptor struct {
-	opts   Options
 	tracer trace.Tracer
+	opts   Options
 }
 
 func (o *otelInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc {
@@ -89,8 +83,8 @@ func (o *otelInterceptor) WrapUnary(next connect.UnaryFunc) connect.UnaryFunc {
 func (o *otelInterceptor) WrapStreamingClient(next connect.StreamingClientFunc) connect.StreamingClientFunc {
 	return func(ctx context.Context, spec connect.Spec) connect.StreamingClientConn {
 		conn := next(ctx, spec)
-		ctx, span, _ := o.start(ctx, spec, conn.RequestHeader(), trace.SpanKindClient)
-		return &tracedClientConn{StreamingClientConn: conn, span: span, ctx: ctx, finish: o.finish}
+		_, span, _ := o.start(ctx, spec, conn.RequestHeader(), trace.SpanKindClient)
+		return &tracedClientConn{StreamingClientConn: conn, span: span, finish: o.finish}
 	}
 }
 
@@ -104,7 +98,12 @@ func (o *otelInterceptor) WrapStreamingHandler(next connect.StreamingHandlerFunc
 	}
 }
 
-func (o *otelInterceptor) start(ctx context.Context, spec connect.Spec, hdr http.Header, kind trace.SpanKind) (context.Context, trace.Span, string) {
+func (o *otelInterceptor) start(
+	ctx context.Context,
+	spec connect.Spec,
+	hdr http.Header,
+	kind trace.SpanKind,
+) (context.Context, trace.Span, string) {
 	// Inbound: extract upstream context. Outbound: continue current.
 	if kind == trace.SpanKindServer {
 		ctx = o.opts.Propagator.Extract(ctx, propagation.HeaderCarrier(hdr))
@@ -157,7 +156,6 @@ func splitProcedure(p string) (service, method string) {
 type tracedClientConn struct {
 	connect.StreamingClientConn
 	span   trace.Span
-	ctx    context.Context //nolint:containedctx // span lifetime mirrors stream lifetime by design
 	finish func(trace.Span, error)
 }
 
@@ -165,13 +163,17 @@ func (t *tracedClientConn) CloseRequest() error {
 	err := t.StreamingClientConn.CloseRequest()
 	if err != nil {
 		t.finish(t.span, err)
+		return fmt.Errorf("otel: stream close request: %w", err)
 	}
-	return err
+	return nil
 }
 
 func (t *tracedClientConn) CloseResponse() error {
 	err := t.StreamingClientConn.CloseResponse()
 	t.finish(t.span, err)
 	t.span.End()
-	return err
+	if err != nil {
+		return fmt.Errorf("otel: stream close response: %w", err)
+	}
+	return nil
 }

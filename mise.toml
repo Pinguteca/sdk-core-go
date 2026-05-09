@@ -1,0 +1,58 @@
+[settings]
+experimental = true
+env_cache = true
+env_cache_ttl = "9h"
+install_before = "7d"
+pin = true
+lockfile = true
+locked = false
+prefer_offline = true
+disable_default_registry = true
+disable_backends = ["asdf", "vfox", "ubi"]
+
+[tools]
+"github:mongodb/kingfisher" = "1.98.0"
+cocogitto = "6.5.0"
+pinact = "3.9.2"
+prek = "0.3.9"
+syft = "1.42.4"
+go = "1.26.2"
+golangci-lint = "2.11.4"
+
+[tasks."secret:scan"]
+run = "kingfisher scan"
+description = "Scan codebase for secrets with Kingfisher"
+alias = "ss"
+
+[tasks."secret:validate"]
+run = "kingfisher scan --validate"
+description = "Validate (and revoke) live secrets found by Kingfisher"
+alias = "sv"
+
+[tasks.bump]
+run = "cog bump --auto"
+description = "Calculate next version from conventional commits and tag"
+
+[tasks."release:sbom"]
+run = "syft scan dir:. -o cyclonedx-json=out/sbom/sdk-core-go.cdx.json"
+description = "Generate CycloneDX SBOM for the workspace"
+alias = "rsbom"
+
+[tasks.lint]
+description = "Run all linting"
+depends = ["lint:*"]
+
+[tasks.build]
+run = "go build ./..."
+description = "Build all Go packages"
+alias = "b"
+
+[tasks.test]
+run = "go test ./..."
+description = "Run all Go tests"
+alias = "t"
+
+[tasks."lint:go"]
+run = "golangci-lint run ./... --fix"
+description = "Lint Go code with autofix"
+sources = ["**/*.go"]

@@ -1,0 +1,7 @@
+issuer: https://token.actions.githubusercontent.com
+subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/heads/main"
+claim_pattern:
+  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/svg-optimization\\.yml@refs/heads/main"
+permissions:
+  contents: write
+  id-token: write

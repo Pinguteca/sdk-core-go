@@ -1,0 +1,66 @@
+name: Optimize Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
+      - "**.webp"
+      - "**.avif"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
+      - "**.webp"
+      - "**.avif"
+  schedule:
+    - cron: "0 9 * * 0"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  optimize:
+    name: Compress images
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: audit
+          disable-telemetry: "true"
+          disable-sudo-and-containers: "true"
+      - name: Obtain token
+        id: octo-sts
+        uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        with:
+          scope: Pinguteca/sdk-core-go
+          identity: img-optimization
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          token: ${{ steps.octo-sts.outputs.token }}
+      - name: Optimize raster images
+        uses: calibreapp/image-actions@1ad9a2ddc5edc551f8f09fdf94d949b45c2f3c8d # v1.1.1
+        with:
+          githubToken: ${{ steps.octo-sts.outputs.token }}
+          jpegQuality: "85"
+          pngQuality: "85"
+          webpQuality: "85"
+          ignorePaths: "node_modules/**,vendor/**,**/*.git/**"
+          compressOnly: false

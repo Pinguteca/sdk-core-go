@@ -1,0 +1,83 @@
+name: Optimize SVGs
+
+on:
+  push:
+    branches: [main]
+    paths: ["**.svg"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths: ["**.svg"]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect:
+    name: Detect SVG changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.filter.outputs.svg }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Filter SVGs
+        id: filter
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        with:
+          filters: |
+            svg:
+              - "**/*.svg"
+
+  optimize:
+    name: Run SVGO
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: audit
+          disable-telemetry: "true"
+          disable-sudo-and-containers: "true"
+      - name: Obtain token
+        id: octo-sts
+        uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        with:
+          scope: Pinguteca/sdk-core-go
+          identity: svg-optimization
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          token: ${{ steps.octo-sts.outputs.token }}
+      - name: Set up Node
+        uses: actions/setup-node@7e24a59bf03ea8c5d65d34f2dbe99e1c7e6f2b7d # v5.0.0
+        with:
+          node-version: 22
+      - name: Run SVGO
+        run: |
+          npm config set -g minimumReleaseAge 30240
+          npx --yes svgo@4 --multipass --recursive .
+      - name: Install gitsign
+        uses: chainguard-dev/actions/setup-gitsign@5a9aa9e1e5d2b6cf78b38b68e7db7c3df9e1c2db # main
+      - name: Auto-commit optimized SVGs
+        uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v6.0.1
+        with:
+          commit_message: "chore: optimize svgs"
+          file_pattern: "**/*.svg"
+          commit_user_name: "Pinguteca Bot"
+          commit_user_email: "bot@pinguteca.com"

@@ -1,0 +1,104 @@
+name: Release (Go)
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CI: "true"
+  MISE_ENV: ci
+
+jobs:
+  release:
+    name: Tag-driven library release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: audit
+          disable-telemetry: "true"
+          disable-sudo: "true"
+      - name: Obtain release token
+        id: octo-sts
+        uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        with:
+          scope: Pinguteca/sdk-core-go
+          identity: release
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{ steps.octo-sts.outputs.token }}
+      - name: Install mise and tools
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          experimental: true
+        env:
+          GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
+      - name: Build source archive
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          mkdir -p out
+          git archive --format=tar.gz --prefix="${TAG}/" -o "out/sdk-core-go-${TAG}.tar.gz" "${TAG}"
+      - name: Generate SBOM
+        run: mise run release:sbom
+      - name: Compute checksums
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd out
+          sha256sum "sdk-core-go-${TAG}.tar.gz" "sbom/sdk-core-go.cdx.json" > checksums.txt
+      - name: Install cosign
+        uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
+      - name: Sign checksums
+        run: |
+          cd out
+          cosign sign-blob \
+            --bundle=checksums.txt.sigstore.json \
+            --yes \
+            checksums.txt
+      - name: Compute SLSA subject hashes
+        id: hash
+        run: |
+          echo "hashes=$(base64 -w0 out/checksums.txt)" >> "$GITHUB_OUTPUT"
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.4.0
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          files: |
+            out/sdk-core-go-*.tar.gz
+            out/sbom/sdk-core-go.cdx.json
+            out/checksums.txt
+            out/checksums.txt.sigstore.json
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+
+  provenance:
+    name: SLSA provenance
+    needs: release
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: "${{ needs.release.outputs.hashes }}"
+      upload-assets: true
+      provenance-name: provenance.intoto.jsonl
+      private-repository: false

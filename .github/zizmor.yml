@@ -1,0 +1,6 @@
+# Zizmor static-analysis config for GitHub Actions workflows.
+# Documentation: https://woodruffw.github.io/zizmor/
+rules:
+  template-injection:
+    config:
+      ignore: []

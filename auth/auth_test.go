@@ -53,7 +53,7 @@ func TestStaticBearer_EmptyTokenIsError(t *testing.T) {
 	}
 	next := func(context.Context, connect.AnyRequest) (connect.AnyResponse, error) {
 		t.Fatalf("next should not be called when token fails")
-		return nil, nil //nolint:nilnil // unreachable test guard
+		return nil, nil
 	}
 	_, err = ic.WrapUnary(next)(context.Background(), newReq())
 	if err == nil {

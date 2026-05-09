@@ -46,18 +46,12 @@ func StaticBearer(token string) TokenSource {
 
 // ClientCredentialsConfig parameterises an OAuth2 client_credentials flow.
 type ClientCredentialsConfig struct {
-	// TokenURL is the IdP's token endpoint. Required.
-	TokenURL string
-	// ClientID and ClientSecret authenticate the caller against the IdP. Required.
-	ClientID     string
-	ClientSecret string
-	// Scopes requested on token issuance. Optional.
-	Scopes []string
-	// EndpointParams adds custom form fields to the token request (e.g. audience). Optional.
 	EndpointParams url.Values
-	// AuthStyle controls whether credentials go in the Authorization header
-	// (in-header) or the request body. Defaults to AuthStyleAutoDetect.
-	AuthStyle oauth2.AuthStyle
+	TokenURL       string
+	ClientID       string
+	ClientSecret   string
+	Scopes         []string
+	AuthStyle      oauth2.AuthStyle
 }
 
 // ClientCredentials returns a [TokenSource] backed by golang.org/x/oauth2 with
@@ -81,10 +75,9 @@ func ClientCredentials(cfg ClientCredentialsConfig) (TokenSource, error) {
 }
 
 type cachingOAuth2Source struct {
-	cfg *clientcredentials.Config
-
-	mu  sync.Mutex
 	src oauth2.TokenSource
+	cfg *clientcredentials.Config
+	mu  sync.Mutex
 }
 
 func (s *cachingOAuth2Source) Token(ctx context.Context) (string, error) {
@@ -105,18 +98,10 @@ func (s *cachingOAuth2Source) Token(ctx context.Context) (string, error) {
 
 // Options configure [Interceptor].
 type Options struct {
-	// Source provides the token. Required.
-	Source TokenSource
-	// HeaderName overrides "Authorization". Useful for APIs that read a custom
-	// header (e.g. "X-Api-Key").
-	HeaderName string
-	// FormatHeader formats the token into the header value. Defaults to
-	// `"Bearer " + token`. Override to send a raw token (return token unchanged)
-	// or a different scheme (e.g. `"Token " + token`).
+	Source       TokenSource
 	FormatHeader func(token string) string
-	// Skip returns true for procedures that should NOT have the credential attached
-	// (e.g. an unauthenticated /Login RPC). Optional.
-	Skip func(procedure string) bool
+	Skip         func(procedure string) bool
+	HeaderName   string
 }
 
 // Interceptor returns a Connect interceptor that injects a bearer credential on
@@ -188,7 +173,11 @@ func WaitToken(ctx context.Context, src TokenSource, timeout time.Duration) (str
 		ctx, cancel = context.WithTimeout(ctx, timeout)
 		defer cancel()
 	}
-	return src.Token(ctx)
+	tok, err := src.Token(ctx)
+	if err != nil {
+		return "", fmt.Errorf("auth: token: %w", err)
+	}
+	return tok, nil
 }
 
 // failedStreamingConn defers an attach error to the first stream operation.
@@ -205,6 +194,7 @@ func (f *failedStreamingConn) CloseRequest() error {
 	}
 	return f.err
 }
+
 func (f *failedStreamingConn) CloseResponse() error {
 	if f.StreamingClientConn != nil {
 		_ = f.StreamingClientConn.CloseResponse()

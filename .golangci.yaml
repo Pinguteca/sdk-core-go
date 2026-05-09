@@ -1,6 +1,3 @@
-# For reference
-# https://wormholerelays.com/posts/top-eight-underdog-linters-for-go/
-# https://gist.github.com/mrwormhole/a2f775c9a3b8932135ab4a80ebdedfd8 (Migrated)
 version: "2"
 run:
   tests: true
@@ -66,18 +63,12 @@ linters:
     - zerologlint
   settings:
     govet:
-      enable:
-        - fieldalignment
+      enable: [fieldalignment]
     goconst:
       min-len: 3
       min-occurrences: 3
     godox:
-      keywords:
-        - TODO
-        - BUG
-        - FIXME
-        - OPTIMIZE
-        - HACK
+      keywords: [TODO, BUG, FIXME, OPTIMIZE, HACK]
     interfacebloat:
       max: 5
     nolintlint:
@@ -97,20 +88,8 @@ linters:
       enable-all-rules: false
       rules:
         - name: context-as-argument
-          severity: warning
-          disabled: false
         - name: defer
-          severity: warning
-          disabled: false
         - name: unexported-return
-          severity: warning
-          disabled: false
-        - name: exported
-          arguments:
-            - checkPrivateReceivers
-            - sayRepetitiveInsteadOfStutters
-          severity: warning
-          disabled: true
     usetesting:
       os-mkdir-temp: true
       os-setenv: true
@@ -119,31 +98,15 @@ linters:
   exclusions:
     generated: lax
     rules:
-      - linters:
-          - goconst
+      - linters: [goconst]
         path: (.+)_test\.go
-      - linters:
-          - gosec
+      - linters: [gosec]
         text: "G204:"
-      - linters:
-          - nilnil
-          - wrapcheck
-          - funlen
-          - gocognit
-          - cyclop
-          - mnd
-          - dupl
-          - lll
+      - linters: [nilnil, wrapcheck, funlen, gocognit, cyclop, mnd, dupl, lll]
         path: (.+)_test\.go
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+    paths: [third_party$, builtin$, examples$]
 formatters:
-  enable:
-    - gci
-    - gofumpt
-    - goimports
+  enable: [gci, gofumpt, goimports]
   settings:
     gci:
       sections:
@@ -153,10 +116,7 @@ formatters:
       custom-order: true
   exclusions:
     generated: lax
-    paths:
-      - third_party$
-      - builtin$
-      - examples$
+    paths: [third_party$, builtin$, examples$]
 issues:
   new: false
   max-issues-per-linter: 0

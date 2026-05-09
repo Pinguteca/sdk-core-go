@@ -1,31 +1,54 @@
-# Binaries
+# ---------------------------------------------------------------------------
+# Cross-cutting
+# ---------------------------------------------------------------------------
+
+# Mise
+mise.local.toml
+mise.local.lock
+
+# fnox secrets
+.fnox/
+*.fnox.local
+
+# Generated outputs
+out/
+dist/
+
+# AI assistants
+.claude
+.skills
+.aider*
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.local
+
+# ---------------------------------------------------------------------------
+# Go
+# ---------------------------------------------------------------------------
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+sdk-core-go
 
-# Test binary, built with `go test -c`
+# Test binaries and coverage
 *.test
-
-# Coverage
 *.out
 coverage.*
-profile.*
+*.coverprofile
+profile.cov
 
-# Editor
-.idea/
-.vscode/
-*.swp
-*~
+# Go workspace
+go.work
+go.work.sum
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Vendor (use go modules, no vendoring)
-vendor/
-
-# Local env
-.env
-.env.local

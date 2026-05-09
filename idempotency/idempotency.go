@@ -1,9 +1,11 @@
 // Package idempotency attaches a stable Idempotency-Key header to mutating
 // unary RPCs. The same key is reused across retry attempts so the server can
-// safely deduplicate. Read-only methods are skipped by default.
+// safely deduplicate.
 //
-// Composes with [github.com/Pinguteca/sdk-core-go/retry]: place this
-// interceptor *before* retry so retried attempts pick up the cached key.
+// Composition: register this interceptor *before* the retry interceptor so
+// it fires once per logical call. The key is stored on the request header,
+// which retry preserves across attempts because it reuses the same Request
+// object. Read-only methods are skipped by default.
 package idempotency
 
 import (
@@ -16,16 +18,9 @@ import (
 
 // Options configure [Interceptor].
 type Options struct {
-	// HeaderName overrides "Idempotency-Key". Required header per RFC 7240
-	// extension; some IdPs use a vendor-specific name.
+	KeyFn      func() string
+	IsSafe     func(procedure string) bool
 	HeaderName string
-	// KeyFn generates a fresh key. Defaults to a UUIDv7 (time-ordered, 128-bit).
-	// Override to inject a deterministic generator under test.
-	KeyFn func() string
-	// IsSafe returns true for procedures that do not need an idempotency key
-	// (read-only RPCs). Default heuristic: procedure final segment starts with
-	// Get, List, Read, Watch, Search, Query, or Lookup.
-	IsSafe func(procedure string) bool
 }
 
 // Interceptor returns the idempotency-key interceptor. Streaming RPCs are
@@ -50,13 +45,12 @@ func (i *idempotencyInterceptor) WrapUnary(next connect.UnaryFunc) connect.Unary
 		if i.opts.IsSafe(req.Spec().Procedure) {
 			return next(ctx, req)
 		}
-		// Cache the key on the context-scoped store so retry replays reuse it.
-		key := keyFromContext(ctx)
-		if key == "" {
-			key = i.opts.KeyFn()
-			ctx = withKey(ctx, key)
+		// Reuse any header the caller already attached, or any key set by an
+		// earlier wrap. Retry replays the same Request, so the header survives
+		// across attempts and the server sees a stable key.
+		if req.Header().Get(i.opts.HeaderName) == "" {
+			req.Header().Set(i.opts.HeaderName, i.opts.KeyFn())
 		}
-		req.Header().Set(i.opts.HeaderName, key)
 		return next(ctx, req)
 	}
 }
@@ -95,14 +89,3 @@ func defaultIsSafe(procedure string) bool {
 }
 
 var readOnlyPrefixes = []string{"Get", "List", "Read", "Watch", "Search", "Query", "Lookup"}
-
-type keyCtxKey struct{}
-
-func withKey(ctx context.Context, key string) context.Context {
-	return context.WithValue(ctx, keyCtxKey{}, key)
-}
-
-func keyFromContext(ctx context.Context) string {
-	v, _ := ctx.Value(keyCtxKey{}).(string)
-	return v
-}

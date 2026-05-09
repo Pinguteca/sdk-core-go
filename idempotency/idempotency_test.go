@@ -61,7 +61,7 @@ func TestKeyStableWhenContextReused(t *testing.T) {
 	t.Parallel()
 	var counter atomic.Int32
 	ic := idempotency.Interceptor(idempotency.Options{
-		KeyFn:  func() string { return "fresh-" + string(rune('A'+counter.Add(1))) },
+		KeyFn:  func() string { return "fresh-" + string('A'+counter.Add(1)) },
 		IsSafe: func(string) bool { return false },
 	})
 

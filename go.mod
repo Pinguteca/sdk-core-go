@@ -4,7 +4,6 @@ go 1.26
 
 require (
 	connectrpc.com/connect v1.18.1
-	github.com/google/uuid v1.6.0
 	golang.org/x/oauth2 v0.25.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f
 	google.golang.org/protobuf v1.36.4

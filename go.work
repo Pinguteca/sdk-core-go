@@ -6,5 +6,6 @@ use (
 	./compression
 	./hedge
 	./logging
+	./otel
 	./presets
 )

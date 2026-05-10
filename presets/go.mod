@@ -6,6 +6,7 @@ require (
 	connectrpc.com/connect v1.18.1
 	github.com/Pinguteca/sdk-core-go v0.0.0-00010101000000-000000000000
 	github.com/Pinguteca/sdk-core-go/breaker v0.0.0-00010101000000-000000000000
+	github.com/Pinguteca/sdk-core-go/otel v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -24,4 +25,5 @@ require (
 replace (
 	github.com/Pinguteca/sdk-core-go => ../
 	github.com/Pinguteca/sdk-core-go/breaker => ../breaker
+	github.com/Pinguteca/sdk-core-go/otel => ../otel
 )

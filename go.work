@@ -8,4 +8,5 @@ use (
 	./logging
 	./otel
 	./presets
+	./transport/mtls/pkcs12
 )

@@ -15,18 +15,14 @@
 //
 // File-loading hardening: caller-supplied paths go through [filepath.Clean],
 // reads are bounded by [MaxCertFileSize], and bytes are content-checked
-// against a known magic number (PEM header for CA bundles, ASN.1 SEQUENCE
-// tag for PKCS#12 bundles) before any decoding step touches them. The
-// G304 gosec advisory still fires on the underlying [os.Open] call because
-// the path is variable by design; see https://github.com/securego/gosec/issues/1054.
+// against a known magic number (the PEM header for CA bundles) before any
+// decoding step touches them. The G304 gosec advisory still fires on the
+// underlying [os.Open] call because the path is variable by design; see
+// https://github.com/securego/gosec/issues/1054.
 //
-// Two constructors are provided so callers do not bypass the helper just
-// because their cert format differs:
-//
-//   - [Config] for PEM-encoded cert/key/CA files (the dominant cloud-native
-//     pipeline format).
-//   - [ConfigFromP12] for PKCS#12/PFX bundles (common in Java- and
-//     Windows-side ecosystems and in some cert-manager outputs).
+// PEM is the only format handled by this package. PKCS#12/PFX bundles
+// land in the `transport/mtls/pkcs12` sub-module so that consumers who do
+// not need the PKCS#12 parser do not pull its third-party dependency.
 //
 // Cert hot-reload, SPIFFE workload identity, and TPM/HSM-backed keys are
 // out of scope for v1; see the "Revisit when" section of ADR 0009.
@@ -42,20 +38,14 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-
-	pkcs12 "software.sslmate.com/src/go-pkcs12"
 )
 
-// MaxCertFileSize caps the bytes [Config] and [ConfigFromP12] read from a
-// single file. Real cert and PKCS#12 bundles are well under 100 KiB; the
-// 1 MiB ceiling exists to bound DoS pressure if a caller points the helper
-// at an unexpected file (a bind mount that turned into a log, a sparse
+// MaxCertFileSize caps the bytes [Config] and [ReadBoundedFile] read from
+// a single file. Real cert bundles are well under 100 KiB; the 1 MiB
+// ceiling exists to bound DoS pressure if a caller points the helper at
+// an unexpected file (a bind mount that turned into a log, a sparse
 // file, etc.).
 const MaxCertFileSize = 1 << 20
-
-// asn1SequenceTag is the leading byte of a DER-encoded ASN.1 SEQUENCE,
-// which is the outer structure of every PKCS#12 bundle.
-const asn1SequenceTag byte = 0x30
 
 // Sentinel errors so callers can branch on misconfiguration without string
 // matching. Wrapped via [fmt.Errorf] %w in the constructors.
@@ -63,11 +53,9 @@ var (
 	ErrInsecureSkipVerify = errors.New("mtls: InsecureSkipVerify is not allowed")
 	ErrEmptyCertPath      = errors.New("mtls: cert path is empty")
 	ErrEmptyKeyPath       = errors.New("mtls: key path is empty")
-	ErrEmptyP12Path       = errors.New("mtls: pkcs12 path is empty")
 	ErrNoCAInFile         = errors.New("mtls: no PEM certificates in CA file")
 	ErrCertFileTooLarge   = errors.New("mtls: certificate file exceeds MaxCertFileSize")
 	ErrInvalidPEM         = errors.New("mtls: file is not a PEM-encoded certificate")
-	ErrInvalidPKCS12      = errors.New("mtls: file is not a PKCS#12 bundle")
 )
 
 // pemHeaderPrefix is the byte prefix shared by every PEM-encoded block
@@ -75,7 +63,7 @@ var (
 // whitespace).
 var pemHeaderPrefix = []byte("-----BEGIN ")
 
-// Options tunes the [tls.Config] produced by [Config] and [ConfigFromP12].
+// Options tunes the [tls.Config] produced by [Config] and [Assemble].
 // The zero value is the recommended default (TLS 1.3, no insecure skip).
 type Options struct {
 	// MinVersion overrides the minimum TLS version. Zero means TLS 1.3.
@@ -120,49 +108,20 @@ func Config(certPath, keyPath, caCertPath string, opts Options) (*tls.Config, er
 	return buildConfig(cert, pool, opts), nil
 }
 
-// ConfigFromP12 loads a PKCS#12/PFX bundle (cert, key, optional intermediate
-// chain) and returns a [*tls.Config]. caCertPath, when non-empty, appends a
-// PEM CA bundle to the system root pool. The PKCS#12 bundle's own chain
-// is sent to the server; the CA file pins which roots are trusted on
-// inbound verification.
-func ConfigFromP12(p12Path, password, caCertPath string, opts Options) (*tls.Config, error) {
+// Assemble turns an already-parsed [tls.Certificate] into a [*tls.Config]
+// using the package's standard CA-loading and option-validation rules.
+// Sub-packages that handle additional cert formats (PKCS#12, etc.) call
+// this after producing the [tls.Certificate] so the resulting Config
+// shares the same TLS 1.3 default and rejection of
+// [Options.InsecureSkipVerify].
+func Assemble(cert tls.Certificate, caCertPath string, opts Options) (*tls.Config, error) {
 	if err := guardOptions(opts); err != nil {
 		return nil, err
 	}
-	if p12Path == "" {
-		return nil, ErrEmptyP12Path
-	}
-
-	raw, err := readBoundedFile(p12Path, "pkcs12")
-	if err != nil {
-		return nil, err
-	}
-	if err := ensurePKCS12(raw); err != nil {
-		return nil, err
-	}
-
-	privKey, leaf, chain, err := pkcs12.DecodeChain(raw, password)
-	if err != nil {
-		return nil, fmt.Errorf("mtls: decode pkcs12: %w", err)
-	}
-
-	rawChain := make([][]byte, 0, 1+len(chain))
-	rawChain = append(rawChain, leaf.Raw)
-	for _, c := range chain {
-		rawChain = append(rawChain, c.Raw)
-	}
-
-	cert := tls.Certificate{
-		Certificate: rawChain,
-		PrivateKey:  privKey,
-		Leaf:        leaf,
-	}
-
 	pool, err := loadCAPool(caCertPath)
 	if err != nil {
 		return nil, err
 	}
-
 	return buildConfig(cert, pool, opts), nil
 }
 
@@ -182,42 +141,15 @@ func Transport(cfg *tls.Config) *http.Transport {
 	return t
 }
 
-func guardOptions(opts Options) error {
-	if opts.InsecureSkipVerify {
-		return ErrInsecureSkipVerify
-	}
-	return nil
-}
-
-func loadCAPool(path string) (*x509.CertPool, error) {
-	pool, err := x509.SystemCertPool()
-	if err != nil || pool == nil {
-		pool = x509.NewCertPool()
-	}
-	if path == "" {
-		return pool, nil
-	}
-	raw, err := readBoundedFile(path, "CA")
-	if err != nil {
-		return nil, err
-	}
-	if err := ensurePEM(raw); err != nil {
-		return nil, err
-	}
-	if !pool.AppendCertsFromPEM(raw) {
-		return nil, fmt.Errorf("%w: %s", ErrNoCAInFile, path)
-	}
-	return pool, nil
-}
-
-// readBoundedFile cleans the path, opens it, and reads up to MaxCertFileSize
-// bytes. Anything larger is rejected before allocation grows beyond the cap.
-// The G304 advisory is suppressed because reading caller-supplied paths is
-// the package's stated purpose; the magic-number check in the caller and
-// the size cap here narrow the blast radius. See https://github.com/securego/gosec/issues/1054.
-func readBoundedFile(path, kind string) ([]byte, error) {
+// ReadBoundedFile cleans the path, opens it, and reads up to
+// [MaxCertFileSize] bytes. Anything larger is rejected before allocation
+// grows beyond the cap. Sub-packages that load other cert formats reuse
+// this so they pick up the same G304 hardening (path cleaning, size cap)
+// and the same comment justifying the suppression. The kind argument is
+// echoed in error messages and chooses nothing else.
+func ReadBoundedFile(path, kind string) ([]byte, error) {
 	cleaned := filepath.Clean(path)
-	f, err := os.Open(cleaned) //#nosec G304 -- caller path is API; size cap and magic check below. gosec#1054.
+	f, err := os.Open(cleaned) //#nosec G304 -- caller path is API; size cap below. gosec#1054.
 	if err != nil {
 		return nil, fmt.Errorf("mtls: open %s file %s: %w", kind, cleaned, err)
 	}
@@ -233,6 +165,34 @@ func readBoundedFile(path, kind string) ([]byte, error) {
 	return raw, nil
 }
 
+func guardOptions(opts Options) error {
+	if opts.InsecureSkipVerify {
+		return ErrInsecureSkipVerify
+	}
+	return nil
+}
+
+func loadCAPool(path string) (*x509.CertPool, error) {
+	pool, err := x509.SystemCertPool()
+	if err != nil || pool == nil {
+		pool = x509.NewCertPool()
+	}
+	if path == "" {
+		return pool, nil
+	}
+	raw, err := ReadBoundedFile(path, "CA")
+	if err != nil {
+		return nil, err
+	}
+	if err := ensurePEM(raw); err != nil {
+		return nil, err
+	}
+	if !pool.AppendCertsFromPEM(raw) {
+		return nil, fmt.Errorf("%w: %s", ErrNoCAInFile, path)
+	}
+	return pool, nil
+}
+
 // ensurePEM reports whether the bytes look like a PEM-encoded structure
 // (the first non-whitespace bytes are the canonical "-----BEGIN " prefix).
 // This is a magic-number sniff, not a full parse; the eventual decoder
@@ -240,16 +200,6 @@ func readBoundedFile(path, kind string) ([]byte, error) {
 func ensurePEM(raw []byte) error {
 	if !bytes.HasPrefix(bytes.TrimLeft(raw, " \t\r\n"), pemHeaderPrefix) {
 		return ErrInvalidPEM
-	}
-	return nil
-}
-
-// ensurePKCS12 reports whether the bytes look like a DER-encoded ASN.1
-// SEQUENCE, the outer structure of every PKCS#12 bundle. The full parse
-// is left to [pkcs12.DecodeChain].
-func ensurePKCS12(raw []byte) error {
-	if len(raw) < 2 || raw[0] != asn1SequenceTag {
-		return ErrInvalidPKCS12
 	}
 	return nil
 }

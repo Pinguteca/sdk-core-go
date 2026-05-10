@@ -2,11 +2,18 @@
 // backoff with jitter and respect for server-provided RetryInfo. Streaming RPCs
 // are passed through untouched: a stream cannot be replayed safely.
 //
+// The user-visible contract (algorithm, defaults, retryable code set, server-
+// hint precedence, idempotency safety gate, composition order) is pinned at
+// the cross-SDK level in sdk-scaffold/docs/rfc/0006-retry-behavioural-contract.md.
+// Every SDK must implement that RFC; this package is the Go-side implementation.
+// Local ADR 0001 (RNG and jitter) and ADR 0002 (resilience and mesh
+// coexistence) cover Go-specific implementation details.
+//
 // Two jitter strategies are supported (see [Strategy]):
 //
 //   - [StrategyFull] (default): the classic AWS "full jitter" scheme.
 //     delay = rand(0, min(Max, Initial * Multiplier^(N-1)))
-//   - [StrategyDecorrelated]: AWS "decorrelated jitter" — bounds the next
+//   - [StrategyDecorrelated]: AWS "decorrelated jitter" bounds the next
 //     delay relative to the previous one rather than the attempt counter.
 //     delay = rand(Initial, min(Max, prev * DecorrelationFactor))
 //
@@ -69,7 +76,7 @@ type Config struct {
 	// MinDelay is an optional floor for [StrategyFull]. When >0 the formula
 	// becomes MinDelay + rand(0, max(0, ceiling-MinDelay)). Defaults to 0
 	// (classic AWS full jitter, allowing zero-wait retries). Decorrelated
-	// jitter ignores this field — its floor is always [Config.Initial].
+	// jitter ignores this field; its floor is always [Config.Initial].
 	MinDelay            time.Duration
 	Multiplier          float64
 	DecorrelationFactor float64

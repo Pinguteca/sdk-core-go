@@ -4,5 +4,6 @@ use (
 	.
 	./breaker
 	./hedge
+	./logging
 	./presets
 )

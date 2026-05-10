@@ -1,0 +1,20 @@
+# Layer 2 dependency allow list for the root go.mod.
+# Source of truth is RFC 0002 (per-language allow list) plus its Connect
+# runtime exemption clause. Implementation contract is RFC 0003;
+# Go-specific implementation is ADR 0011. Edit this file in the same PR
+# series that amends those documents so the data stays in sync.
+#
+# Syntax:
+#   - Exact match: write the full module path on its own line.
+#   - Prefix glob: append "/*" to a path. The "/*" form matches the
+#     prefix itself and any sub-path; it does not admit siblings whose
+#     names happen to start with the same characters.
+#   - Lines beginning with "#" and blank lines are ignored.
+
+# Connect runtime (RFC 0002 exemption).
+connectrpc.com/connect
+google.golang.org/protobuf
+google.golang.org/genproto/googleapis/*
+
+# Stdlib-adjacent first-party (RFC 0002 Go allow list).
+golang.org/x/*

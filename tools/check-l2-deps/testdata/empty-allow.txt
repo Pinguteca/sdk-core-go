@@ -1,0 +1,1 @@
+# Empty allow list used in negative-path smoke checks.

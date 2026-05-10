@@ -56,3 +56,8 @@ alias = "t"
 run = "golangci-lint run ./... --fix"
 description = "Lint Go code with autofix"
 sources = ["**/*.go"]
+
+[tasks."lint:l2-deps"]
+run = "go run ./tools/check-l2-deps"
+description = "Verify root go.mod direct deps match the Layer 2 allow list (RFC 0002, RFC 0003, ADR 0011)"
+sources = ["go.mod", "tools/check-l2-deps/**/*"]

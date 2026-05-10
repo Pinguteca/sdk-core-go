@@ -37,7 +37,6 @@ OpenTelemetry Go, and the `golang.org/x/*` modules all use this shape.
    - `pagination/`
    - `errors/`
    - `clock/`
-   - `presets/`
    - `transport/mtls/` (PEM path only after the split below)
 
 3. **Layer 3 moves to sub-modules** (each with its own `go.mod`):
@@ -53,6 +52,12 @@ OpenTelemetry Go, and the `golang.org/x/*` modules all use this shape.
    - `transport/mtls/pkcs12/` - new sub-package, depends on
      `software.sslmate.com/src/go-pkcs12`. The PEM constructor stays
      in `transport/mtls/`; only `ConfigFromP12` moves.
+   - `presets/` - composes core L2 with `breaker/` and `otel/`. By
+     RFC 0002's direction rule (companion -> core, never reverse),
+     a package that imports L3 must itself be L3. Consumers who want
+     the canned chain pull `sdk-core-go/presets` and inherit its
+     transitive deps; consumers who build their own chain bypass it
+     and stay on the lean L2 set.
 
 4. **Module path convention.** Each sub-module is
    `github.com/Pinguteca/sdk-core-go/<dir>`. Companion code imports

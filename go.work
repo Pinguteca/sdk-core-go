@@ -3,6 +3,7 @@ go 1.26.3
 use (
 	.
 	./breaker
+	./compression
 	./hedge
 	./logging
 	./presets

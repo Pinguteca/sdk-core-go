@@ -4,9 +4,7 @@ go 1.26
 
 require (
 	connectrpc.com/connect v1.18.1
-	github.com/andybalholm/brotli v1.2.1
 	github.com/google/uuid v1.6.0
-	github.com/klauspost/compress v1.18.6
 	go.opentelemetry.io/otel v1.34.0
 	go.opentelemetry.io/otel/trace v1.34.0
 	golang.org/x/oauth2 v0.25.0

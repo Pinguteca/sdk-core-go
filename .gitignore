@@ -48,7 +48,7 @@ coverage.*
 *.coverprofile
 profile.cov
 
-# Go workspace
-go.work
-go.work.sum
+# Go workspace: committed per ADR 0010 (multi-module mono-repo).
+# go.work
+# go.work.sum
 

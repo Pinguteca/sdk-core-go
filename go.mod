@@ -19,4 +19,6 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel/metric v1.34.0 // indirect
+	golang.org/x/crypto v0.11.0 // indirect
+	software.sslmate.com/src/go-pkcs12 v0.7.1 // indirect
 )

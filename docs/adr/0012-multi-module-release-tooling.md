@@ -79,13 +79,18 @@ inaccurate metadata.
    releases on the same day do not collide. Format:
    `sdk-core-go-<slug>.tar.gz`.
 
-5. **SBOM is per-package.** A new `release:sbom` task takes
-   `PACKAGE_DIR` as input and runs syft against that directory's
-   own `go.mod` graph. Output:
+5. **SBOM is per-package.** The existing `release:sbom` inline
+   task is replaced by a `.mise-tasks/release-sbom.ps1` file task
+   (PowerShell Core runs on Windows, Linux, and macOS, so the
+   filesystem and env-defaulting logic stays OS-agnostic). The
+   task reads `PACKAGE_DIR` and `SLUG` from env and runs syft
+   against that directory's own `go.mod` graph. Output:
    `out/sbom/sdk-core-go-<slug>.cdx.json`. Root releases scan the
    root module; companion releases scan the companion. Cross-
    module deps land in the companion's SBOM correctly because
-   syft follows the manifest the directory points to.
+   syft follows the manifest the directory points to. The task is
+   invoked as `mise run release-sbom` (file-task naming convention
+   replaces the colon with a hyphen).
 
 6. **Cosign signing stays per-tag.** Same flow as today (sign
    `checksums.txt`), the only change is the input filename set.

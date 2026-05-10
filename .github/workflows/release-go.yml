@@ -2,7 +2,10 @@ name: Release (Go)
 
 on:
   push:
-    tags: ["v*"]
+    tags:
+      - "v*"
+      - "*/v*"
+      - "*/*/v*"
   workflow_dispatch:
 
 permissions: {}
@@ -50,20 +53,49 @@ jobs:
           experimental: true
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
+      - name: Parse package scope from tag
+        id: scope
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          # Tag shapes:
+          #   vX.Y.Z                            -> root module, package dir is "."
+          #   <dir>/vX.Y.Z                      -> companion at top level
+          #   <dir1>/<dir2>/.../vX.Y.Z          -> nested companion
+          # The slug replaces "/" with "-" so artifact filenames are
+          # filesystem-safe even when the tag has multiple segments.
+          version="${TAG##*/}"
+          if [ "${version}" = "${TAG}" ]; then
+            package_dir="."
+            slug="${TAG}"
+          else
+            package_dir="${TAG%/*}"
+            slug="${TAG//\//-}"
+          fi
+          {
+            echo "tag=${TAG}"
+            echo "version=${version}"
+            echo "package_dir=${package_dir}"
+            echo "slug=${slug}"
+          } >> "$GITHUB_OUTPUT"
       - name: Build source archive
         env:
           TAG: ${{ github.ref_name }}
+          SLUG: ${{ steps.scope.outputs.slug }}
         run: |
           mkdir -p out
-          git archive --format=tar.gz --prefix="${TAG}/" -o "out/sdk-core-go-${TAG}.tar.gz" "${TAG}"
+          git archive --format=tar.gz --prefix="${SLUG}/" -o "out/sdk-core-go-${SLUG}.tar.gz" "${TAG}"
       - name: Generate SBOM
-        run: mise run release:sbom
+        env:
+          PACKAGE_DIR: ${{ steps.scope.outputs.package_dir }}
+          SLUG: ${{ steps.scope.outputs.slug }}
+        run: mise run release-sbom
       - name: Compute checksums
         env:
-          TAG: ${{ github.ref_name }}
+          SLUG: ${{ steps.scope.outputs.slug }}
         run: |
           cd out
-          sha256sum "sdk-core-go-${TAG}.tar.gz" "sbom/sdk-core-go.cdx.json" > checksums.txt
+          sha256sum "sdk-core-go-${SLUG}.tar.gz" "sbom/sdk-core-go-${SLUG}.cdx.json" > checksums.txt
       - name: Install cosign
         uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
       - name: Sign checksums
@@ -79,11 +111,13 @@ jobs:
           echo "hashes=$(base64 -w0 out/checksums.txt)" >> "$GITHUB_OUTPUT"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.4.0
+        env:
+          SLUG: ${{ steps.scope.outputs.slug }}
         with:
           token: ${{ steps.octo-sts.outputs.token }}
           files: |
-            out/sdk-core-go-*.tar.gz
-            out/sbom/sdk-core-go.cdx.json
+            out/sdk-core-go-${{ env.SLUG }}.tar.gz
+            out/sbom/sdk-core-go-${{ env.SLUG }}.cdx.json
             out/checksums.txt
             out/checksums.txt.sigstore.json
           generate_release_notes: true

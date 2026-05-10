@@ -6,10 +6,20 @@ disable_changelog = false
 disable_bump_commit = false
 generate_mono_repository_global_tag = true
 generate_mono_repository_package_tags = true
+monorepo_version_separator = "/"
 branch_whitelist = ["main"]
 skip_ci = "[skip ci]"
 skip_untracked = true
 post_bump_hooks = ["git push origin {{version_tag}}"]
+
+[monorepo.packages]
+hedge = { path = "hedge" }
+breaker = { path = "breaker" }
+logging = { path = "logging" }
+compression = { path = "compression" }
+otel = { path = "otel" }
+presets = { path = "presets" }
+"transport/mtls/pkcs12" = { path = "transport/mtls/pkcs12" }
 
 [git_hooks]
 

@@ -45,7 +45,7 @@ hooks = [
     name = "Pinact update GHA",
     language = "system",
     entry = "pinact",
-    args = ["run", "-u", "--min-age", "7"],
+    args = ["run"],
     stages = ["pre-push"],
     pass_filenames = false,
   },

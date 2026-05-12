@@ -30,7 +30,7 @@ jobs:
       hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -97,7 +97,7 @@ jobs:
           cd out
           sha256sum "sdk-core-go-${SLUG}.tar.gz" "sbom/sdk-core-go-${SLUG}.cdx.json" > checksums.txt
       - name: Install cosign
-        uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Sign checksums
         run: |
           cd out
@@ -110,7 +110,7 @@ jobs:
         run: |
           echo "hashes=$(base64 -w0 out/checksums.txt)" >> "$GITHUB_OUTPUT"
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.4.0
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         env:
           SLUG: ${{ steps.scope.outputs.slug }}
         with:
@@ -133,6 +133,10 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: "${{ needs.release.outputs.hashes }}"
-      upload-assets: true
+      # Keep provenance as a workflow artifact only. Attaching to the
+      # GitHub Release races whichever tool owns the release lifecycle
+      # (softprops today, possibly GoReleaser/JReleaser later) and SLSA
+      # verifiers pull provenance from the workflow run, not the release.
+      upload-assets: false
       provenance-name: provenance.intoto.jsonl
       private-repository: false

@@ -5,6 +5,17 @@
 - **Deciders:** Pinguteca SDK team
 - **Affects:** `retry`, `breaker`, `idempotency`, `presets` packages
 
+## Cross-SDK contract
+
+The user-visible contract (two named presets, the
+OTel-Breaker-Idempotency-Retry-Auth composition order, the Mesh
+preset skipping Breaker and Retry to avoid amplification, the
+breaker error model carrying a structured retry-after hint, and the
+idempotency-driven retry safety gate) is pinned at the cross-SDK
+level in `sdk-scaffold/docs/rfc/0008-resilience-presets.md`. Every
+SDK must implement that RFC; this package is the Go-side
+implementation.
+
 ## Context
 
 Two questions had to be resolved together:

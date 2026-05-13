@@ -109,19 +109,27 @@ jobs:
         id: hash
         run: |
           echo "hashes=$(base64 -w0 out/checksums.txt)" >> "$GITHUB_OUTPUT"
+      # GitHub releases on org-immutable repos cannot have assets
+      # deleted, so softprops's delete-and-replace flow fails on
+      # every retry. Atomic gh release create on first run, no-op
+      # on retry.
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         env:
+          GH_TOKEN: ${{ steps.octo-sts.outputs.token }}
+          TAG: ${{ github.ref_name }}
           SLUG: ${{ steps.scope.outputs.slug }}
-        with:
-          token: ${{ steps.octo-sts.outputs.token }}
-          files: |
-            out/sdk-core-go-${{ env.SLUG }}.tar.gz
-            out/sbom/sdk-core-go-${{ env.SLUG }}.cdx.json
-            out/checksums.txt
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; skipping create."
+            exit 0
+          fi
+          gh release create "$TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --generate-notes \
+            "out/sdk-core-go-${SLUG}.tar.gz" \
+            "out/sbom/sdk-core-go-${SLUG}.cdx.json" \
+            out/checksums.txt \
             out/checksums.txt.sigstore.json
-          generate_release_notes: true
-          fail_on_unmatched_files: true
 
   provenance:
     name: SLSA provenance

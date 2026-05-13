@@ -5,6 +5,15 @@
 - **Deciders:** Pinguteca SDK team
 - **Affects:** `retry` package (and any future package that needs randomness)
 
+## Cross-SDK contract
+
+The user-visible contract (CSPRNG-only randomness, the canonical
+top-53-bits / 2^53 jitter conversion, the 0.5 fallback on entropy
+starvation, and the pluggable jitter-source hook) is pinned at the
+cross-SDK level in `sdk-scaffold/docs/rfc/0007-random-source-policy.md`.
+Every SDK must implement that RFC; this package is the Go-side
+implementation.
+
 ## Context
 
 The retry interceptor needs randomness for two related concerns:

@@ -42,12 +42,12 @@ jobs:
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Verify lockfile
-        uses: gjtorikian/gh-actions-lockfile@b3eb45c7be8745fc24a149f7bc6e21f3f5f2cb8c # v1.5.0
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: verify
       - name: Regenerate lockfile on failure
         if: failure()
-        uses: gjtorikian/gh-actions-lockfile@b3eb45c7be8745fc24a149f7bc6e21f3f5f2cb8c # v1.5.0
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: generate
       - name: Auto-commit regenerated lockfile

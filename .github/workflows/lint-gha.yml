@@ -34,7 +34,7 @@ jobs:
         with:
           egress-policy: audit
           disable-telemetry: "true"
-          disable-sudo-and-containers: "true"
+          disable-sudo: "true"
       - name: Optimize Git config for CI
         run: |
           git config --global core.compression 0

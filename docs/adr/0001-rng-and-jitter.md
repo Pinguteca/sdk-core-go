@@ -84,5 +84,6 @@ Equal and proportional jitter offer no advantage over full and decorrelated; the
 
 - [AWS Architecture Blog: Exponential Backoff And Jitter (Brooker, 2015)](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)
 - [AWS Builders' Library: Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/)
+- [Thom Wright: Decorrelated jitter (2024)](https://thomwright.co.uk/2024/04/24/decorrelated-jitter/) - simulation that backs the choice of full jitter as the default and decorrelated only as an opt-in for sustained-load scenarios.
 - [Go release notes: crypto/rand FIPS 140-3 module (1.24)](https://go.dev/doc/go1.24)
 - [Google SRE Book, ch. "Addressing Cascading Failures"](https://sre.google/sre-book/addressing-cascading-failures/)

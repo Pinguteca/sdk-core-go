@@ -20,12 +20,12 @@ go = "1.26.2"
 golangci-lint = "2.11.4"
 
 [tasks."secret:scan"]
-run = "kingfisher scan"
+run = "kingfisher scan . --no-validate --redact"
 description = "Scan codebase for secrets with Kingfisher"
 alias = "ss"
 
 [tasks."secret:validate"]
-run = "kingfisher scan --validate"
+run = "kingfisher scan . --redact"
 description = "Validate (and revoke) live secrets found by Kingfisher"
 alias = "sv"
 

@@ -7,6 +7,6 @@ require (
 	software.sslmate.com/src/go-pkcs12 v0.7.1
 )
 
-require golang.org/x/crypto v0.11.0 // indirect
+require golang.org/x/crypto v0.51.0 // indirect
 
 replace github.com/Pinguteca/sdk-core-go => ../../..

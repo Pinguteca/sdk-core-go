@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "generated": "2026-05-16T16:47:20.288Z",
+  "actions": {
+    "step-security/harden-runner": [
+      {
+        "version": "ab7a9404c0f3da075243ca237b5fac12c98deaa5",
+        "sha": "ab7a9404c0f3da075243ca237b5fac12c98deaa5",
+        "integrity": "sha256-9f2426f1d7addabba16af3e389f08b6a5c270007c6288f136d7dc85622a4fcfd",
+        "dependencies": []
+      }
+    ],
+    "octo-sts/action": [
+      {
+        "version": "f603d3be9d8dd9871a265776e625a27b00effe05",
+        "sha": "f603d3be9d8dd9871a265776e625a27b00effe05",
+        "integrity": "sha256-f75ad252303d04be5e1dedbaf80993671048b0d5d6355f1331624e2dd3179152",
+        "dependencies": []
+      }
+    ],
+    "actions/checkout": [
+      {
+        "version": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+        "sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+        "integrity": "sha256-c744527bfafdf73cf1bf8a83a3ace81c46e36d03e6ed952fa9d93683adabab4d",
+        "dependencies": []
+      },
+      {
+        "version": "11bd71901bbe5b1630ceea73d27597364c9af683",
+        "sha": "11bd71901bbe5b1630ceea73d27597364c9af683",
+        "integrity": "sha256-9dfa8405068129d1c92187abba5ee5288a469d0540a8aca538ac75b6b858eb89",
+        "dependencies": []
+      }
+    ],
+    "jdx/mise-action": [
+      {
+        "version": "1648a7812b9aeae629881980618f079932869151",
+        "sha": "1648a7812b9aeae629881980618f079932869151",
+        "integrity": "sha256-f7881c16860c9bafdc12ee70b13c50e9ae9e82f8e8f68dd38a93aa8764614417",
+        "dependencies": []
+      }
+    ],
+    "chainguard-dev/actions/setup-gitsign": [
+      {
+        "version": "5a9aa9e1e5d2b6cf78b38b68e7db7c3df9e1c2db",
+        "sha": "5a9aa9e1e5d2b6cf78b38b68e7db7c3df9e1c2db",
+        "integrity": "",
+        "dependencies": []
+      }
+    ],
+    "calibreapp/image-actions": [
+      {
+        "version": "f32575787d333b0579f0b7d506ff03be63a669d1",
+        "sha": "f32575787d333b0579f0b7d506ff03be63a669d1",
+        "integrity": "sha256-83683d8e64413847b74787f4f58e7be5bd11fc683f20216afeebf348e9828147",
+        "dependencies": []
+      }
+    ],
+    "github/codeql-action/upload-sarif": [
+      {
+        "version": "95e58e9a2cdfd71adc6e0353d5c52f41a045d225",
+        "sha": "95e58e9a2cdfd71adc6e0353d5c52f41a045d225",
+        "integrity": "sha256-ae293e865e9bd876dc93c7442d66eccc18058b7a8e43eb4f31572944ca304d1c",
+        "dependencies": []
+      },
+      {
+        "version": "9e0d7b8d25671d64c341c19c0152d693099fb5ba",
+        "sha": "9e0d7b8d25671d64c341c19c0152d693099fb5ba",
+        "integrity": "sha256-2e942c3091b499190c255d6e06418f9d0fb6f116628274c6bfa0f62f1d2c45af",
+        "dependencies": []
+      }
+    ],
+    "zizmorcore/zizmor-action": [
+      {
+        "version": "b572f7b1a1c2d41efaab43d504f68d215c3cd727",
+        "sha": "b572f7b1a1c2d41efaab43d504f68d215c3cd727",
+        "integrity": "sha256-f019d25af41bf3b85556248000ca3077f7e42a7cd581bfc36d2980d2fdf01af4",
+        "dependencies": [
+          {
+            "ref": "github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225",
+            "sha": "95e58e9a2cdfd71adc6e0353d5c52f41a045d225",
+            "integrity": "sha256-ae293e865e9bd876dc93c7442d66eccc18058b7a8e43eb4f31572944ca304d1c"
+          }
+        ]
+      }
+    ],
+    "reviewdog/action-actionlint": [
+      {
+        "version": "6fb7acc99f4a1008869fa8a0f09cfca740837d9d",
+        "sha": "6fb7acc99f4a1008869fa8a0f09cfca740837d9d",
+        "integrity": "sha256-e2b56c1a54504af6569f579541b90a187d8e9cb074bb273fae640c74fb7f5c1e",
+        "dependencies": []
+      }
+    ],
+    "sigstore/cosign-installer": [
+      {
+        "version": "6f9f17788090df1f26f669e9d70d6ae9567deba6",
+        "sha": "6f9f17788090df1f26f669e9d70d6ae9567deba6",
+        "integrity": "sha256-d94dba410d0604808ebc153f98eddc26571cf0b0f0bcc6fd66f2f80b682aab1c",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/actions/detect-workflow-js": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": [
+          {
+            "ref": "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "sha": "11bd71901bbe5b1630ceea73d27597364c9af683",
+            "integrity": "sha256-9dfa8405068129d1c92187abba5ee5288a469d0540a8aca538ac75b6b858eb89"
+          }
+        ]
+      }
+    ],
+    "actions/setup-go": [
+      {
+        "version": "f111f3307d8850f501ac008e886eec1fd1932a34",
+        "sha": "f111f3307d8850f501ac008e886eec1fd1932a34",
+        "integrity": "sha256-2505e4aa8d9d9894d6e8d9e631a6657a9ac08365546e9a43c73f9ec3d6487f71",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/actions/generate-builder": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": [
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          },
+          {
+            "ref": "actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34",
+            "sha": "f111f3307d8850f501ac008e886eec1fd1932a34",
+            "integrity": "sha256-2505e4aa8d9d9894d6e8d9e631a6657a9ac08365546e9a43c73f9ec3d6487f71"
+          }
+        ]
+      }
+    ],
+    "actions/download-artifact": [
+      {
+        "version": "fa0a91b85d4f404e444e00e005971372dc801d16",
+        "sha": "fa0a91b85d4f404e444e00e005971372dc801d16",
+        "integrity": "sha256-abb1412c1447087445cb29bce547b5f796e929f6bd318ad5667f7b6f3bb56c79",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/actions/compute-sha256": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/actions/secure-download-artifact": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": [
+          {
+            "ref": "actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16",
+            "sha": "fa0a91b85d4f404e444e00e005971372dc801d16",
+            "integrity": "sha256-abb1412c1447087445cb29bce547b5f796e929f6bd318ad5667f7b6f3bb56c79"
+          },
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/compute-sha256@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          }
+        ]
+      }
+    ],
+    "actions/upload-artifact": [
+      {
+        "version": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
+        "sha": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
+        "integrity": "sha256-b2a2476eae39969ce618c3dc31c1fc2345b7ac4def319aa70009c77ac2d4f829",
+        "dependencies": []
+      },
+      {
+        "version": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+        "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+        "integrity": "sha256-69baddda1bd8d80441109e489128f1b6944fddd92586ad1855275121beeae897",
+        "dependencies": []
+      }
+    ],
+    "softprops/action-gh-release": [
+      {
+        "version": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
+        "sha": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
+        "integrity": "sha256-f4ee369308565e2afdd8020f764393fe61cba3e986b6afc026799b88b93f46c6",
+        "dependencies": []
+      }
+    ],
+    "slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml": [
+      {
+        "version": "v2.1.0",
+        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
+        "dependencies": [
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/detect-workflow-js@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          },
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/generate-builder@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          },
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-download-artifact@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          },
+          {
+            "ref": "actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
+            "sha": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
+            "integrity": "sha256-b2a2476eae39969ce618c3dc31c1fc2345b7ac4def319aa70009c77ac2d4f829"
+          },
+          {
+            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout@v2.1.0",
+            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
+          },
+          {
+            "ref": "softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
+            "sha": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
+            "integrity": "sha256-f4ee369308565e2afdd8020f764393fe61cba3e986b6afc026799b88b93f46c6"
+          }
+        ]
+      }
+    ],
+    "ossf/scorecard-action": [
+      {
+        "version": "4eaacf0543bb3f2c246792bd56e8cdeffafb205a",
+        "sha": "4eaacf0543bb3f2c246792bd56e8cdeffafb205a",
+        "integrity": "sha256-272458b277268dff201d4e5bb8d7bfcba6376ee2a166c324f8a7ce3f21dcec78",
+        "dependencies": []
+      }
+    ],
+    "dorny/paths-filter": [
+      {
+        "version": "fbd0ab8f3e69293af611ebaee6363fc25e6d187d",
+        "sha": "fbd0ab8f3e69293af611ebaee6363fc25e6d187d",
+        "integrity": "sha256-38c2ff88df99f0e28cc1fd0a457e5cf7a0536bf477c5f4777c1145e822ef1d05",
+        "dependencies": []
+      }
+    ],
+    "actions/setup-node": [
+      {
+        "version": "48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
+        "sha": "48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
+        "integrity": "sha256-aefc631800117b35e99f36c1395c361a2a6c6ae364ff47a3ba48c684cd3d3aff",
+        "dependencies": []
+      }
+    ],
+    "stefanzweifel/git-auto-commit-action": [
+      {
+        "version": "04702edda442b2e678b25b537cec683a1493fcb9",
+        "sha": "04702edda442b2e678b25b537cec683a1493fcb9",
+        "integrity": "sha256-fb727ccb3f59ccc9d4fc5e0de90e1238ad8b9ff2f48e4b100e47ed99c229c509",
+        "dependencies": []
+      }
+    ],
+    "gjtorikian/gh-actions-lockfile": [
+      {
+        "version": "8abbeb1fe0a4bf20279c81fa206e6a2fc862a830",
+        "sha": "8abbeb1fe0a4bf20279c81fa206e6a2fc862a830",
+        "integrity": "sha256-433ba4e791b1c1fe3431e0f0c8766cb1c3823dd7ae8739cb2b9c07c0b023f87f",
+        "dependencies": []
+      }
+    ]
+  }
+}

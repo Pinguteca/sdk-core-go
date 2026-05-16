@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      id-token: write
-      contents: write
+      id-token: write # OIDC token for octo-sts so checkout can read the repo
+      contents: write # auto-commit regenerated actions.lock.json on drift
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3

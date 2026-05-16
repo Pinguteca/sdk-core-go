@@ -34,9 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      id-token: write
-      contents: write
-      pull-requests: write
+      id-token: write # OIDC token for octo-sts to fetch a scoped repo token
+      contents: write # commit optimized image assets back to a feature branch
+      pull-requests: write # open the optimization PR against main
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
@@ -50,6 +50,10 @@ jobs:
         with:
           scope: Pinguteca/sdk-core-go
           identity: img-optimization
+      - name: Optimize Git config for CI
+        run: |
+          git config --global core.compression 0
+          git config --global core.fsync -all
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:

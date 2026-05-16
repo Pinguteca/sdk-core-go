@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
-      id-token: write
-      contents: write
+      id-token: write # OIDC token for octo-sts exchange and cosign keyless signing
+      contents: write # gh release create writes a GitHub Release object
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
     steps:
@@ -41,6 +41,10 @@ jobs:
         with:
           scope: Pinguteca/sdk-core-go
           identity: release
+      - name: Optimize Git config for CI
+        run: |
+          git config --global core.compression 0
+          git config --global core.fsync -all
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -51,6 +55,10 @@ jobs:
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:
           experimental: true
+          install: true
+          # Releases publish artifacts; a poisoned cache from an earlier
+          # CI run could ship in the release. Reinstall from scratch.
+          cache: false
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
       - name: Parse package scope from tag
@@ -135,9 +143,9 @@ jobs:
     name: SLSA provenance
     needs: release
     permissions:
-      actions: read
-      id-token: write
-      contents: write
+      actions: read # SLSA generator inspects this run's metadata
+      id-token: write # OIDC token signs the provenance subject hashes
+      contents: write # SLSA generator can upload to the GitHub Release
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: "${{ needs.release.outputs.hashes }}"

@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      security-events: write
+      security-events: write # zizmor and actionlint upload SARIF to GitHub Code Scanning
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5 # v2.19.3
@@ -35,6 +35,12 @@ jobs:
           egress-policy: audit
           disable-telemetry: "true"
           disable-sudo: "true"
+      - name: Obtain release token
+        id: octo-sts
+        uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        with:
+          scope: Pinguteca/sdk-core-go
+          identity: lint-gha
       - name: Optimize Git config for CI
         run: |
           git config --global core.compression 0
@@ -48,6 +54,7 @@ jobs:
             .github/zizmor.yml
           sparse-checkout-cone-mode: false
           filter: "blob:none"
+          token: ${{ steps.octo-sts.outputs.token }}
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@b572f7b1a1c2d41efaab43d504f68d215c3cd727 # v0.5.4
         with:

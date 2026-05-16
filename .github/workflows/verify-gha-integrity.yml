@@ -39,7 +39,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          persist-credentials: false
+          # Persist the octo-sts token (not GITHUB_TOKEN) so the
+          # auto-commit step can push the regenerated lockfile.
+          # The trust policy in .github/chainguard scopes the grant
+          # to this workflow and the token expires in an hour.
+          persist-credentials: true
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Verify lockfile
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1

@@ -36,12 +36,12 @@ jobs:
         with:
           fetch-depth: 0
           filter: "blob:none"
-          persist-credentials: false
-      - name: Configure git remote
-        env:
-          GH_TOKEN: ${{ steps.octo-sts.outputs.token }}
-        run: |
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/Pinguteca/sdk-core-go.git"
+          # Persist the octo-sts token (not GITHUB_TOKEN) so cog bump
+          # can push the version commit and tag back to main. Token
+          # is scoped via the chainguard trust policy and expires
+          # within the hour.
+          persist-credentials: true
+          token: ${{ steps.octo-sts.outputs.token }}
       - name: Install mise and tools
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:

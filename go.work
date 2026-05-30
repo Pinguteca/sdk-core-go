@@ -5,6 +5,7 @@ use (
 	./breaker
 	./caching
 	./compression
+	./ergo
 	./hedge
 	./logging
 	./otel

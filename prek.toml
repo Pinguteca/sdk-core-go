@@ -29,6 +29,18 @@ rev = "v1.98.0"
 hooks = [{ id = "kingfisher-pre-commit" }]
 
 [[repos]]
+repo = "https://github.com/golangci/golangci-lint"
+rev = "v2.12.2"
+hooks = [
+  { id = "golangci-lint-config-verify",
+    stages = ["pre-push"],
+  },
+  { id = "golangci-lint",
+    stages = ["pre-push"],
+  },
+]
+
+[[repos]]
 repo = "local"
 hooks = [
   {

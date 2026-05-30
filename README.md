@@ -1,5 +1,12 @@
 # sdk-core-go
 
+> [!WARNING]
+> **Work in progress, not production-ready.** APIs are unstable and
+> may change without notice before the first stable release. External
+> pull requests are not accepted yet while the foundations stabilise.
+> Issues are welcome: open one before sending code if you spot a bug
+> or want a feature.
+
 Reusable Connect-Go interceptors for every Pinguteca service SDK: auth, retry, idempotency, and observability. Drop in once when constructing the generated `*ServiceClient` and the rest of the application code stays focused on business logic.
 
 ```go

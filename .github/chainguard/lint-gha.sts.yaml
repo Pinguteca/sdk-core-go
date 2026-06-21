@@ -1,6 +1,8 @@
 issuer: https://token.actions.githubusercontent.com
-subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/heads/main"
+# Allow both main pushes and PR refs so action-lint runs on
+# pull_request events too.
+subject_pattern: "^repo:Pinguteca/sdk-core-go:(pull_request|ref:refs/heads/main)$"
 claim_pattern:
-  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/lint-gha\\.yml@refs/heads/main"
+  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/lint-gha\\.yml@.*"
 permissions:
   security-events: write

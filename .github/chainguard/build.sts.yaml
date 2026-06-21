@@ -1,6 +1,9 @@
 issuer: https://token.actions.githubusercontent.com
-subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/heads/main"
+# Allow both main pushes and PR refs so the build job can mint a
+# token on pull_request runs too. Matches the verify-gha-integrity
+# trust policy shape.
+subject_pattern: "^repo:Pinguteca/sdk-core-go:(pull_request|ref:refs/heads/main)$"
 claim_pattern:
-  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/build-(go|dotnet)\\.yml@refs/heads/main"
+  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/build-(go|dotnet)\\.yml@.*"
 permissions:
   contents: read

@@ -9,6 +9,11 @@ import (
 	"strings"
 )
 
+// schemeHTTPS is the only scheme the SDK accepts for IdP-facing
+// URLs (token, authorization, discovery, broker endpoints). RFC
+// 0017 pins HTTPS-only at every function boundary.
+const schemeHTTPS = "https"
+
 // tokenEndpointBodyLimit caps how much of the token endpoint
 // response the SDK ingests so a misbehaving server cannot pin
 // large bodies in memory through this code path.

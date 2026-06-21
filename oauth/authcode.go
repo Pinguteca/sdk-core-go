@@ -197,7 +197,7 @@ func validateHTTPSEndpoint(name, raw string) error {
 	if err != nil {
 		return &OAuthError{Code: ErrorCodeInvalidRequest, Description: name + " is not a valid URL: " + err.Error()}
 	}
-	if u.Scheme != "https" {
+	if u.Scheme != schemeHTTPS {
 		return &OAuthError{Code: ErrorCodeInvalidRequest, Description: name + " must use https"}
 	}
 	return nil

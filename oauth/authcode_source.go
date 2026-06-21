@@ -4,6 +4,8 @@ import (
 	"context"
 	"sync"
 	"time"
+
+	"github.com/Pinguteca/sdk-core-go/clock"
 )
 
 // skewWindow is the clock-skew tolerance applied when deciding
@@ -24,7 +26,7 @@ const skewWindow = 30 * time.Second
 // the consumer.
 type AuthorizationCodeSource struct {
 	flow    *AuthorizationCodeFlow
-	now     func() time.Time
+	clk     clock.Clock
 	cache   *TokenResponse
 	asOf    time.Time
 	refresh string
@@ -41,11 +43,12 @@ func NewAuthorizationCodeSource(flow *AuthorizationCodeFlow, initial *TokenRespo
 	if initial == nil {
 		return nil, &OAuthError{Code: ErrorCodeInvalidRequest, Description: "initial TokenResponse is required"}
 	}
+	clk := clock.Real()
 	return &AuthorizationCodeSource{
 		flow:    flow,
-		now:     time.Now,
+		clk:     clk,
 		cache:   initial,
-		asOf:    time.Now(),
+		asOf:    clk.Now(),
 		refresh: initial.RefreshToken,
 	}, nil
 }
@@ -70,7 +73,7 @@ func (s *AuthorizationCodeSource) Token(ctx context.Context) (string, error) {
 		return "", err
 	}
 	s.cache = resp
-	s.asOf = s.now()
+	s.asOf = s.clk.Now()
 	if resp.RefreshToken != "" {
 		s.refresh = resp.RefreshToken
 	}
@@ -90,5 +93,5 @@ func (s *AuthorizationCodeSource) expired() bool {
 		return false
 	}
 	expiry := s.asOf.Add(time.Duration(s.cache.ExpiresIn) * time.Second)
-	return s.now().Add(skewWindow).After(expiry)
+	return s.clk.Now().Add(skewWindow).After(expiry)
 }

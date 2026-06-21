@@ -135,7 +135,7 @@ func (f *AuthorizationCodeFlow) Exchange(ctx context.Context, code, verifier str
 	form.Set("code", code)
 	form.Set("redirect_uri", f.cfg.RedirectURI)
 	form.Set("code_verifier", verifier)
-	return postTokenRequest(
+	resp, err := postTokenRequest(
 		ctx,
 		f.cfg.Client,
 		f.cfg.TokenEndpoint,
@@ -144,6 +144,10 @@ func (f *AuthorizationCodeFlow) Exchange(ctx context.Context, code, verifier str
 		f.cfg.ClientID,
 		f.cfg.ClientSecret,
 	)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // Refresh exchanges a refresh token for a new access token
@@ -158,7 +162,7 @@ func (f *AuthorizationCodeFlow) Refresh(ctx context.Context, refreshToken string
 	if len(f.cfg.Scopes) > 0 {
 		form.Set("scope", strings.Join(f.cfg.Scopes, " "))
 	}
-	return postTokenRequest(
+	resp, err := postTokenRequest(
 		ctx,
 		f.cfg.Client,
 		f.cfg.TokenEndpoint,
@@ -167,6 +171,10 @@ func (f *AuthorizationCodeFlow) Refresh(ctx context.Context, refreshToken string
 		f.cfg.ClientID,
 		f.cfg.ClientSecret,
 	)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 func validateAuthCodeConfig(cfg AuthorizationCodeConfig) error {

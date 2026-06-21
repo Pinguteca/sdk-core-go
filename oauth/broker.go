@@ -177,8 +177,10 @@ func (s *LocalEndpointBrokerSource) expired() bool {
 	if supplied < maxDur {
 		maxDur = supplied
 	}
-	expiry := s.asOf.Add(maxDur)
-	return s.now().Add(skewWindow).After(expiry)
+	// No skew window. The Direct path uses skew to refresh before the
+	// IdP's fixed expiry; broker tokens can rotate at any moment so
+	// the 30s cap (or consumer override) is the freshness guarantee.
+	return s.now().After(s.asOf.Add(maxDur))
 }
 
 // HeaderPassthroughSource forwards a bound token that an upstream

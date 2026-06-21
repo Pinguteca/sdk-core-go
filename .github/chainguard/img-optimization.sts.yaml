@@ -3,5 +3,8 @@ subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/heads/main"
 claim_pattern:
   workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/img-optimization\\.yml@refs/heads/main"
 permissions:
+  # pull-requests: write comes from the img-optimization job
+  # permissions block in the workflow; octo-sts schema only
+  # accepts top-level GitHub permissions and rejects hyphenated
+  # keys here.
   contents: write
-  pull-requests: write

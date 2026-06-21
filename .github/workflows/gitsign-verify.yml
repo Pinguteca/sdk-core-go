@@ -42,6 +42,6 @@ jobs:
           for sha in $(git rev-list "$BASE..$HEAD"); do
             echo "Verifying $sha"
             gitsign verify "$sha" \
-              --certificate-identity-regexp="^.*@pinguteca\.com$" \
+              --certificate-identity-regexp="^.*@(pinguteca\.com|gmail\.com)$" \
               --certificate-oidc-issuer="https://github.com/login/oauth"
           done

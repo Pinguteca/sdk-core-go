@@ -27,7 +27,11 @@ func GeneratePkcePair() (PkcePair, error) {
 		return PkcePair{}, fmt.Errorf("oauth: read random bytes for PKCE verifier: %w", err)
 	}
 	verifier := base64.RawURLEncoding.EncodeToString(buf[:])
-	return PkcePairFromVerifier(verifier)
+	pair, err := PkcePairFromVerifier(verifier)
+	if err != nil {
+		return PkcePair{}, fmt.Errorf("oauth: compute PKCE pair from generated verifier: %w", err)
+	}
+	return pair, nil
 }
 
 // PkcePairFromVerifier recomputes the challenge from a caller

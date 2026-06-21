@@ -10,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/Pinguteca/sdk-core-go/clock"
 )
 
 // Broker-origin error codes per sdk-scaffold RFC 0019. Surfaced on
@@ -63,7 +65,7 @@ type LocalEndpointBrokerConfig struct {
 // token on outgoing calls.
 type LocalEndpointBrokerSource struct {
 	asOf  time.Time
-	now   func() time.Time
+	clk   clock.Clock
 	cache *TokenResponse
 	cfg   LocalEndpointBrokerConfig
 	mu    sync.Mutex
@@ -92,7 +94,7 @@ func NewLocalEndpointBrokerSource(cfg LocalEndpointBrokerConfig) (*LocalEndpoint
 			Description: "Endpoint must use https or a loopback host",
 		}
 	}
-	return &LocalEndpointBrokerSource{cfg: cfg, now: time.Now}, nil
+	return &LocalEndpointBrokerSource{cfg: cfg, clk: clock.Real()}, nil
 }
 
 // Origin implements [BrokerSource].
@@ -161,7 +163,7 @@ func (s *LocalEndpointBrokerSource) exchangeLocked(ctx context.Context) (string,
 		}
 	}
 	s.cache = tr
-	s.asOf = s.now()
+	s.asOf = s.clk.Now()
 	return tr.AccessToken, nil
 }
 
@@ -180,7 +182,7 @@ func (s *LocalEndpointBrokerSource) expired() bool {
 	// No skew window. The Direct path uses skew to refresh before the
 	// IdP's fixed expiry; broker tokens can rotate at any moment so
 	// the 30s cap (or consumer override) is the freshness guarantee.
-	return s.now().After(s.asOf.Add(maxDur))
+	return s.clk.Now().After(s.asOf.Add(maxDur))
 }
 
 // HeaderPassthroughSource forwards a bound token that an upstream

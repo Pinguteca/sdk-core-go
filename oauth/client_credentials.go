@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/Pinguteca/sdk-core-go/clock"
 )
 
 // ClientCredentialsConfig parameterises a client_credentials grant
@@ -46,7 +48,7 @@ type ClientCredentialsFromIssuerConfig struct {
 // can drop the cache after a server-side rejection.
 type ClientCredentialsSource struct {
 	asOf  time.Time
-	now   func() time.Time
+	clk   clock.Clock
 	cache *TokenResponse
 	cfg   ClientCredentialsConfig
 	mu    sync.Mutex
@@ -59,7 +61,7 @@ func NewClientCredentialsSource(cfg ClientCredentialsConfig) (*ClientCredentials
 	if err := validateClientCredentialsConfig(cfg); err != nil {
 		return nil, err
 	}
-	return &ClientCredentialsSource{cfg: cfg, now: time.Now}, nil
+	return &ClientCredentialsSource{cfg: cfg, clk: clock.Real()}, nil
 }
 
 // NewClientCredentialsSourceFromIssuer runs OIDC discovery against
@@ -136,7 +138,7 @@ func (s *ClientCredentialsSource) refreshLocked(ctx context.Context) (string, er
 		return "", err
 	}
 	s.cache = resp
-	s.asOf = s.now()
+	s.asOf = s.clk.Now()
 	return resp.AccessToken, nil
 }
 
@@ -145,7 +147,7 @@ func (s *ClientCredentialsSource) expired() bool {
 		return false
 	}
 	expiry := s.asOf.Add(time.Duration(s.cache.ExpiresIn) * time.Second)
-	return s.now().Add(skewWindow).After(expiry)
+	return s.clk.Now().Add(skewWindow).After(expiry)
 }
 
 func validateClientCredentialsConfig(cfg ClientCredentialsConfig) error {

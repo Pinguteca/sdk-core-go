@@ -85,7 +85,11 @@ func Discover(ctx context.Context, cfg DiscoverConfig) (*OidcMetadata, error) {
 	}
 	defer func() { _ = resp.Body.Close() }()
 
-	return parseDiscoveryResponse(resp, cfg.Issuer)
+	md, err := parseDiscoveryResponse(resp, cfg.Issuer)
+	if err != nil {
+		return nil, err
+	}
+	return md, nil
 }
 
 func validateDiscoverConfig(cfg DiscoverConfig) error {

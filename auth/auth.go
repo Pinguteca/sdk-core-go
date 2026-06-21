@@ -59,6 +59,13 @@ func StaticBearer(token string) TokenSource {
 }
 
 // ClientCredentialsConfig parameterises an OAuth2 client_credentials flow.
+//
+// Deprecated: use [github.com/Pinguteca/sdk-core-go/oauth.ClientCredentialsConfig].
+// The oauth package returns a [*oauth.OAuthError] on failure, exposes the
+// [ClientAuthMode] preset surface from sdk-scaffold RFC 0019, and integrates
+// with the rest of the OAuth companion (OIDC discovery, authorization_code,
+// mTLS endpoint aliases). The auth-package version remains for source
+// compatibility and will be removed after a deprecation window.
 type ClientCredentialsConfig struct {
 	EndpointParams url.Values
 	TokenURL       string
@@ -70,6 +77,11 @@ type ClientCredentialsConfig struct {
 
 // ClientCredentials returns a [TokenSource] backed by golang.org/x/oauth2 with
 // thread-safe caching and automatic refresh on expiry.
+//
+// Deprecated: use [github.com/Pinguteca/sdk-core-go/oauth.NewClientCredentialsSource]
+// for the typed-error boundary and the [ClientAuthMode] preset surface. The
+// auth-package version remains for source compatibility and will be removed
+// after a deprecation window.
 func ClientCredentials(cfg ClientCredentialsConfig) (TokenSource, error) {
 	if cfg.TokenURL == "" {
 		return nil, errors.New("auth: TokenURL is required")

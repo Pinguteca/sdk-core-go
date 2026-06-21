@@ -21,10 +21,11 @@ const testFakeClientSecret = "placeholder-not-a-real-secret"
 // Test URLs extracted to consts so gosec G101 does not see literal
 // strings assigned to credential-pattern fields like TokenEndpoint.
 const (
-	testAuthorizeURL  = "https://idp/authorize"
-	testPlaintextAuth = "http://idp/authorize"
-	testIdpExchange   = "https://idp/token"
-	testRedirectURL   = "https://app/cb"
+	testAuthorizeURL      = "https://idp/authorize"
+	testPlaintextAuth     = "http://idp/authorize"
+	testIdpExchange       = "https://idp/token"
+	testPlaintextExchange = "http://idp/token"
+	testRedirectURL       = "https://app/cb"
 )
 
 func newCodeFlow(t *testing.T, srv *httptest.Server, mode oauth.ClientAuthMode) *oauth.AuthorizationCodeFlow {

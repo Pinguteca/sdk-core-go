@@ -39,7 +39,10 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          for sha in $(git rev-list "$BASE..$HEAD"); do
+          # Merge commits are created by GitHub (or `git merge` runs)
+          # without a gitsign signature, so include only the actual
+          # content commits the PR introduces.
+          for sha in $(git rev-list --no-merges "$BASE..$HEAD"); do
             echo "Verifying $sha"
             gitsign verify "$sha" \
               --certificate-identity-regexp="^.*@(pinguteca\.com|gmail\.com)$" \

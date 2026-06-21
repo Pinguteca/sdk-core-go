@@ -2,8 +2,6 @@ package oauth
 
 import (
 	"context"
-	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -137,7 +135,15 @@ func (f *AuthorizationCodeFlow) Exchange(ctx context.Context, code, verifier str
 	form.Set("code", code)
 	form.Set("redirect_uri", f.cfg.RedirectURI)
 	form.Set("code_verifier", verifier)
-	return f.postToken(ctx, form)
+	return postTokenRequest(
+		ctx,
+		f.cfg.Client,
+		f.cfg.TokenEndpoint,
+		form,
+		f.cfg.AuthMode,
+		f.cfg.ClientID,
+		f.cfg.ClientSecret,
+	)
 }
 
 // Refresh exchanges a refresh token for a new access token
@@ -152,52 +158,15 @@ func (f *AuthorizationCodeFlow) Refresh(ctx context.Context, refreshToken string
 	if len(f.cfg.Scopes) > 0 {
 		form.Set("scope", strings.Join(f.cfg.Scopes, " "))
 	}
-	return f.postToken(ctx, form)
-}
-
-// tokenEndpointBodyLimit caps how much of the token endpoint
-// response we ingest so a misbehaving server cannot pin large
-// bodies in memory through the SDK.
-const tokenEndpointBodyLimit = 1 << 20 // 1 MiB
-
-func (f *AuthorizationCodeFlow) postToken(ctx context.Context, form url.Values) (*TokenResponse, error) {
-	f.attachClientAuth(form)
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, f.cfg.TokenEndpoint, strings.NewReader(form.Encode()))
-	if err != nil {
-		return nil, fmt.Errorf("oauth: build token request: %w", err)
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Accept", "application/json")
-	if f.cfg.AuthMode == ClientAuthBasic {
-		req.SetBasicAuth(f.cfg.ClientID, f.cfg.ClientSecret)
-	}
-
-	resp, err := f.cfg.Client.Do(req)
-	if err != nil {
-		return nil, FromTransportError(err)
-	}
-	defer func() { _ = resp.Body.Close() }()
-
-	body, err := io.ReadAll(io.LimitReader(resp.Body, tokenEndpointBodyLimit))
-	if err != nil {
-		return nil, fmt.Errorf("oauth: read token response: %w", err)
-	}
-	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
-		return nil, FromTokenEndpointError(resp.StatusCode, body)
-	}
-	return ParseTokenResponse(body)
-}
-
-// attachClientAuth puts the client credentials into the form when
-// AuthMode demands the form-post style. Basic-mode credentials go
-// into the Authorization header inside postToken; mTLS uses the
-// TLS layer; None sends nothing beyond client_id.
-func (f *AuthorizationCodeFlow) attachClientAuth(form url.Values) {
-	form.Set("client_id", f.cfg.ClientID)
-	if f.cfg.AuthMode == ClientAuthFormPost {
-		form.Set("client_secret", f.cfg.ClientSecret)
-	}
+	return postTokenRequest(
+		ctx,
+		f.cfg.Client,
+		f.cfg.TokenEndpoint,
+		form,
+		f.cfg.AuthMode,
+		f.cfg.ClientID,
+		f.cfg.ClientSecret,
+	)
 }
 
 func validateAuthCodeConfig(cfg AuthorizationCodeConfig) error {
@@ -220,7 +189,7 @@ func validateAuthCodeConfig(cfg AuthorizationCodeConfig) error {
 	if err := validateHTTPSEndpoint("token_endpoint", cfg.TokenEndpoint); err != nil {
 		return err
 	}
-	return validateAuthMode(cfg)
+	return validateClientAuthMode(cfg.AuthMode, cfg.ClientSecret)
 }
 
 func validateHTTPSEndpoint(name, raw string) error {
@@ -230,28 +199,6 @@ func validateHTTPSEndpoint(name, raw string) error {
 	}
 	if u.Scheme != "https" {
 		return &OAuthError{Code: ErrorCodeInvalidRequest, Description: name + " must use https"}
-	}
-	return nil
-}
-
-func validateAuthMode(cfg AuthorizationCodeConfig) error {
-	switch cfg.AuthMode {
-	case ClientAuthBasic, ClientAuthFormPost:
-		if cfg.ClientSecret == "" {
-			return &OAuthError{
-				Code:        ErrorCodeInvalidRequest,
-				Description: fmt.Sprintf("client_secret is required for AuthMode %q", cfg.AuthMode),
-			}
-		}
-	case ClientAuthNone, ClientAuthMtls:
-		// No client_secret needed in either mode.
-	case "":
-		return &OAuthError{Code: ErrorCodeInvalidRequest, Description: "AuthMode is required"}
-	default:
-		return &OAuthError{
-			Code:        ErrorCodeInvalidRequest,
-			Description: fmt.Sprintf("unknown AuthMode %q", cfg.AuthMode),
-		}
 	}
 	return nil
 }

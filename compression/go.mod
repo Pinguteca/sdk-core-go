@@ -3,7 +3,7 @@ module github.com/Pinguteca/sdk-core-go/compression
 go 1.26.3
 
 require (
-	connectrpc.com/connect v1.19.2
+	connectrpc.com/connect v1.20.0
 	github.com/andybalholm/brotli v1.2.1
 	github.com/klauspost/compress v1.18.6
 )

@@ -3,5 +3,7 @@ subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/heads/main"
 claim_pattern:
   workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/svg-optimization\\.yml@refs/heads/main"
 permissions:
+  # id-token: write comes from the svg-optimization job permissions
+  # block in the workflow; octo-sts schema rejects hyphenated keys
+  # here.
   contents: write
-  id-token: write

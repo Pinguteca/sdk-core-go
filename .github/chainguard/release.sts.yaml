@@ -3,6 +3,7 @@ subject_pattern: "repo:Pinguteca/sdk-core-go:ref:refs/tags/v.*"
 claim_pattern:
   workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/release-(go|dotnet)\\.yml@refs/tags/v.*"
 permissions:
+  # id-token: write comes from the release job permissions block in
+  # the workflow; octo-sts schema rejects hyphenated keys here.
   contents: write
   packages: write
-  id-token: write

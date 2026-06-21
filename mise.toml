@@ -13,7 +13,7 @@ disable_backends = ["asdf", "vfox", "ubi"]
 [tools]
 "github:mongodb/kingfisher" = "1.102.0"
 cocogitto = "7.0.0"
-pinact = "3.10.1"
+pinact = "4.0.0"
 prek = "0.4.3"
 syft = "1.44.0"
 go = "1.26.3"

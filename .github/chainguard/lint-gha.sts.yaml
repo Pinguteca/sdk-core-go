@@ -5,4 +5,8 @@ subject_pattern: "^repo:Pinguteca/sdk-core-go:(pull_request|ref:refs/heads/main)
 claim_pattern:
   workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/lint-gha\\.yml@.*"
 permissions:
-  security-events: write
+  # octo-sts only issues GitHub repo tokens, so the SARIF upload's
+  # security-events: write comes from the lint-gha job permissions
+  # block in the workflow itself. This token only needs to read
+  # the workflow files actionlint inspects.
+  contents: read

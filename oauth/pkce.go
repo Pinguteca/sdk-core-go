@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
+	"fmt"
 )
 
 // PkcePair is an RFC 7636 PKCE verifier and challenge pair. S256
@@ -23,7 +24,7 @@ func (PkcePair) Method() string { return "S256" }
 func GeneratePkcePair() (PkcePair, error) {
 	var buf [32]byte
 	if _, err := rand.Read(buf[:]); err != nil {
-		return PkcePair{}, err
+		return PkcePair{}, fmt.Errorf("oauth: read random bytes for PKCE verifier: %w", err)
 	}
 	verifier := base64.RawURLEncoding.EncodeToString(buf[:])
 	return PkcePairFromVerifier(verifier)

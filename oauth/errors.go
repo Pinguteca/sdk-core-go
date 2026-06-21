@@ -14,7 +14,13 @@ import (
 // SDK consumers branch on Code to decide whether the fault is
 // recoverable. invalid_grant means re-auth is required, not a
 // retry of the same request.
+// Field order is governed by govet's fieldalignment check:
+// pointer-bearing fields first to shorten the GC scan mask.
 type OAuthError struct {
+	// Err wraps the underlying transport error when the failure
+	// was network-level. Nil when the failure was a server-returned
+	// OAuth error.
+	Err error
 	// Code is the RFC 6749 §5.2 token endpoint error code, an OIDC
 	// discovery code, a PKCE validation code, or a broker-origin
 	// code defined by RFC 0019.
@@ -28,10 +34,6 @@ type OAuthError struct {
 	// HTTPStatus is the HTTP status of the failing token endpoint
 	// call. Zero when the failure was network-level.
 	HTTPStatus int
-	// Err wraps the underlying transport error when the failure
-	// was network-level. Nil when the failure was a server-returned
-	// OAuth error.
-	Err error
 }
 
 // Standard RFC 6749 §5.2 token endpoint error codes plus the
@@ -62,7 +64,7 @@ func (e *OAuthError) Error() string {
 	if e.Description != "" {
 		return fmt.Sprintf("oauth: %s: %s", e.Code, e.Description)
 	}
-	return fmt.Sprintf("oauth: %s", e.Code)
+	return "oauth: " + e.Code
 }
 
 // Unwrap returns the underlying transport error when present so

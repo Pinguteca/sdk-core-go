@@ -12,13 +12,16 @@ import (
 // The shape is exposed to callers so flows that need the id_token
 // (login, OIDC userinfo) can read it directly. The
 // [auth.RotatingTokenSource] surface yields only the access token.
+// Field order is governed by govet's fieldalignment check:
+// pointer-bearing strings first, int last, to shorten the GC scan
+// mask.
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	TokenType    string `json:"token_type"`
-	ExpiresIn    int    `json:"expires_in,omitempty"`
 	RefreshToken string `json:"refresh_token,omitempty"`
 	Scope        string `json:"scope,omitempty"`
 	IDToken      string `json:"id_token,omitempty"`
+	ExpiresIn    int    `json:"expires_in,omitempty"`
 }
 
 // ParseTokenResponse decodes a token endpoint JSON body. Returns an

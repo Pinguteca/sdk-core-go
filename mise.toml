@@ -15,7 +15,7 @@ disable_backends = ["asdf", "vfox", "ubi"]
 cocogitto = "7.0.0"
 pinact = "4.0.0"
 prek = "0.4.4"
-syft = "1.45.0"
+syft = "1.45.1"
 go = "1.26.4"
 golangci-lint = "2.12.2"
 

@@ -33,8 +33,13 @@ alias = "sv"
 run = "cog bump --auto"
 description = "Calculate next version from conventional commits and tag"
 
-# release:sbom lives as a file task at .mise-tasks/release-sbom.ps1 so the
-# filesystem and env-defaulting logic stays OS-agnostic via PowerShell Core.
+[tasks."release:sbom"]
+run = [
+  "mkdir -p out/sbom",
+  "syft scan dir:${PACKAGE_DIR:-.} -o cyclonedx-json=out/sbom/sdk-core-go-${SLUG:-root}.cdx.json",
+]
+description = "Generate CycloneDX SBOM for one module (env: PACKAGE_DIR, SLUG)"
+alias = "rsbom"
 
 [tasks.lint]
 description = "Run all linting"

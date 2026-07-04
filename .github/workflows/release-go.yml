@@ -97,7 +97,7 @@ jobs:
         env:
           PACKAGE_DIR: ${{ steps.scope.outputs.package_dir }}
           SLUG: ${{ steps.scope.outputs.slug }}
-        run: mise run release-sbom
+        run: mise run release:sbom
       - name: Compute checksums
         env:
           SLUG: ${{ steps.scope.outputs.slug }}

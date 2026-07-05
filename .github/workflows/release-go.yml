@@ -146,7 +146,8 @@ jobs:
       actions: read # SLSA generator inspects this run's metadata
       id-token: write # OIDC token signs the provenance subject hashes
       contents: write # SLSA generator can upload to the GitHub Release
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@f7dd8c54c2067bafc12ca7a55595d5ee9b75204a # v2.1.0
+    # slsa-github-generator refuses SHA pins; must be a tag ref (see .github/pinact.yml).
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: "${{ needs.release.outputs.hashes }}"
       # Keep provenance as a workflow artifact only. Attaching to the

@@ -26,7 +26,7 @@ jobs:
       changed: ${{ steps.filter.outputs.svg }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
       - name: Filter SVGs
@@ -60,7 +60,7 @@ jobs:
           scope: Pinguteca/sdk-core-go
           identity: svg-optimization
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
@@ -73,7 +73,7 @@ jobs:
           npm config set -g minimumReleaseAge 30240
           npx --yes svgo@4 --multipass --recursive .
       - name: Install gitsign
-        uses: chainguard-dev/actions/setup-gitsign@e1c4977ad9cb32b12c5b222ec0134a22bec60bd5 # main
+        uses: chainguard-dev/actions/setup-gitsign@f0be69916b439d0fcced2451b23d0f27cd46d545 # main
       - name: Auto-commit optimized SVGs
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:

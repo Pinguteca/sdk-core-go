@@ -4,8 +4,7 @@ on:
   push:
     tags:
       - "v*"
-      - "*/v*"
-      - "*/*/v*"
+      - "**/v*"
   workflow_dispatch:
 
 permissions: {}

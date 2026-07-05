@@ -2,17 +2,9 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
-## logging/v0.1.1 - 2026-07-05
+## transport/mtls/pkcs12/v0.0.1 - 2026-07-05
 #### Bug Fixes
 - (**deps**) update go updates (#9) - (800a595) - renovate[bot], *renovate[bot]*
-
-- - -
-
-## logging/v0.1.0 - 2026-06-21
-#### Features
-- (**logging**) add canonical-log slog interceptor - (1717777) - Pinguladora
-#### Bug Fixes
-- (**deps**) update go updates (#5) - (47da431) - renovate[bot], *renovate[bot]*
 
 - - -
 

@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## hedge/v0.1.1 - 2026-07-05
+#### Bug Fixes
+- (**deps**) update go updates (#9) - (800a595) - renovate[bot], *renovate[bot]*
+
+- - -
+
 ## hedge/v0.1.0 - 2026-06-21
 #### Features
 - (**hedge**) add hedged-requests interceptor for tail-latency-sensitive RPCs - (c7615cd) - Pinguladora

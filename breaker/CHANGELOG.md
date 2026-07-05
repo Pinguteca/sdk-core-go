@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## breaker/v0.1.1 - 2026-07-05
+#### Bug Fixes
+- (**deps**) update go updates (#9) - (800a595) - renovate[bot], *renovate[bot]*
+
+- - -
+
 ## breaker/v0.1.0 - 2026-06-21
 #### Features
 - (**breaker**) add three-state circuit breaker interceptor - (7f4d96c) - Pinguladora

@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## otel/v0.0.2 - 2026-07-05
+#### Bug Fixes
+- (**deps**) update go updates (#9) - (800a595) - renovate[bot], *renovate[bot]*
+
+- - -
+
 ## otel/v0.0.1 - 2026-06-21
 #### Bug Fixes
 - (**deps**) update go updates (#5) - (47da431) - renovate[bot], *renovate[bot]*

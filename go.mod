@@ -1,6 +1,6 @@
 module github.com/Pinguteca/sdk-core-go
 
-go 1.26.3
+go 1.26.4
 
 require (
 	connectrpc.com/connect v1.20.0

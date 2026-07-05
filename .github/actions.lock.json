@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-07-04T11:34:02.409Z",
+  "generated": "2026-07-05T11:03:40.785Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -208,7 +208,7 @@
     ],
     "slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml": [
       {
-        "version": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
+        "version": "v2.1.0",
         "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
         "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
         "dependencies": [

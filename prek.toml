@@ -61,4 +61,22 @@ hooks = [
     stages = ["pre-push"],
     pass_filenames = false,
   },
+  {
+    id = "go-mod-download",
+    name = "go mod download",
+    language = "system",
+    entry = "go",
+    args = ["mod", "download"],
+    stages = ["pre-push"],
+    pass_filenames = false,
+  },
+  {
+    id = "go-work-sum-clean",
+    name = "go.work.sum clean",
+    language = "system",
+    entry = "git",
+    args = ["diff", "--exit-code", "go.work", "go.work.sum"],
+    stages = ["pre-push"],
+    pass_filenames = false,
+  },
 ]

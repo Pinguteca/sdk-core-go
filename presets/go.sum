@@ -1,5 +1,11 @@
 connectrpc.com/connect v1.20.0 h1:6TNDAB+WeNd2uolWNlYczB5E0KNNaVMNUEx8JEUsPmQ=
 connectrpc.com/connect v1.20.0/go.mod h1:A2ygJrukXwWy32vkCAAHNVguZrqZ+jeZ9rGRnGR4dN4=
+github.com/Pinguteca/sdk-core-go v0.1.1 h1:uZn0N4A3T88UqsZtsFU3HfkSpi0AsPi4XWgdlxesjc4=
+github.com/Pinguteca/sdk-core-go v0.1.1/go.mod h1:rKzyshqYaVzAiAChyNp4Im6WhSdAcsDDegBCF6g+3kI=
+github.com/Pinguteca/sdk-core-go/breaker v0.1.1 h1:7ZJWXs7+tvqJ2lFwOqwM6ehCe6lOVRo+7/5hi3mM2Lo=
+github.com/Pinguteca/sdk-core-go/breaker v0.1.1/go.mod h1:qA4KuVmzYsXAUWx0OHaBxTLXAv3IvQdB3xGlKYcwyuI=
+github.com/Pinguteca/sdk-core-go/otel v0.0.2 h1:wn5E+q7KyxQ4qOJPj4BrYWtZeeBpCyOjIdRo2R9/Z1Q=
+github.com/Pinguteca/sdk-core-go/otel v0.0.2/go.mod h1:+ny6McRM9FMq9tsf8kjSywwr+KxAWiYemSyv9VIVbhc=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

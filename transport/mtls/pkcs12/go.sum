@@ -1,5 +1,5 @@
-github.com/Pinguteca/sdk-core-go v0.1.0 h1:7liN5V9bE20wPjignUj2YreMY7QSSA149lvrVE7n1hw=
-github.com/Pinguteca/sdk-core-go v0.1.0/go.mod h1:c4s948y4EhukYJOvaE66EVwX9RDedHsx6/yBb2zSz5A=
+github.com/Pinguteca/sdk-core-go v0.1.1 h1:uZn0N4A3T88UqsZtsFU3HfkSpi0AsPi4XWgdlxesjc4=
+github.com/Pinguteca/sdk-core-go v0.1.1/go.mod h1:rKzyshqYaVzAiAChyNp4Im6WhSdAcsDDegBCF6g+3kI=
 golang.org/x/crypto v0.51.0 h1:IBPXwPfKxY7cWQZ38ZCIRPI50YLeevDLlLnyC5wRGTI=
 golang.org/x/crypto v0.51.0/go.mod h1:8AdwkbraGNABw2kOX6YFPs3WM22XqI4EXEd8g+x7Oc8=
 software.sslmate.com/src/go-pkcs12 v0.7.3 h1:JBQD3FDqYjTeyDAeZQklj2ar88ykBLtALloPJHyAauU=

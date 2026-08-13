@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-07T09:05:01.266Z",
+  "generated": "2026-08-13T08:01:16.202Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -20,9 +20,9 @@
     ],
     "actions/checkout": [
       {
-        "version": "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
-        "sha": "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
-        "integrity": "sha256-55a4d878f3996c46172ef19d005d7a4d423864a1a65dcbc8a8947cda850bb225",
+        "version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "integrity": "sha256-cebb825b471e77ce4dd7f1f37ccdfb3ae5b68e78f6f6d2f6e2521c3cfce27e72",
         "dependencies": []
       },
       {
@@ -64,9 +64,9 @@
         "dependencies": []
       },
       {
-        "version": "7188fc363630916deb702c7fdcf4e481b751f97a",
-        "sha": "7188fc363630916deb702c7fdcf4e481b751f97a",
-        "integrity": "sha256-f9dee33e2f2cc93cbac9ee76da69c35f41d2ca4a2213cbe639b31fe8328eff33",
+        "version": "e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81",
+        "sha": "e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81",
+        "integrity": "sha256-a8fb1c1d3dd0a5115abad9e58c996f1791a3a32af7d8dddd3a6c6883fd91e2c1",
         "dependencies": []
       }
     ],
@@ -86,9 +86,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "6fb7acc99f4a1008869fa8a0f09cfca740837d9d",
-        "sha": "6fb7acc99f4a1008869fa8a0f09cfca740837d9d",
-        "integrity": "sha256-e2b56c1a54504af6569f579541b90a187d8e9cb074bb273fae640c74fb7f5c1e",
+        "version": "50842263c20a7c46bd0065b9e624d3c569db061e",
+        "sha": "50842263c20a7c46bd0065b9e624d3c569db061e",
+        "integrity": "sha256-df949ce31978a47e36fc1bd364f4c33e5224ae0ff9135ba781d841e70215615b",
         "dependencies": []
       }
     ],

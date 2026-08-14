@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-13T08:01:16.202Z",
+  "generated": "2026-08-14T07:46:34.149Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -58,9 +58,9 @@
     ],
     "github/codeql-action/upload-sarif": [
       {
-        "version": "54f647b7e1bb85c95cddabcd46b0c578ec92bc1a",
-        "sha": "54f647b7e1bb85c95cddabcd46b0c578ec92bc1a",
-        "integrity": "sha256-d2058828e341ca033ef78e6359f0f36f935272b15d41919398355d592f14f8ca",
+        "version": "99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "sha": "99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+        "integrity": "sha256-7752f0c77f742b852bfdc6dc67fa87f3685f3e936a5df7ffcdb315d51ebefa69",
         "dependencies": []
       },
       {
@@ -72,14 +72,14 @@
     ],
     "zizmorcore/zizmor-action": [
       {
-        "version": "6599ee8b7a49aef6a770f63d261d214911a7ce02",
-        "sha": "6599ee8b7a49aef6a770f63d261d214911a7ce02",
-        "integrity": "sha256-4b85c6222a02205f29a0e66393ef20b06b7e2f8fff2598a4b1d18fc2c341b66d",
+        "version": "6fc4b006235f201fdab3722e17240ab420d580e5",
+        "sha": "6fc4b006235f201fdab3722e17240ab420d580e5",
+        "integrity": "sha256-b9373f9b894dec4cfa085e3c6bda8e04138e0b90c76c01d4c1b83c97934cd597",
         "dependencies": [
           {
-            "ref": "github/codeql-action/upload-sarif@54f647b7e1bb85c95cddabcd46b0c578ec92bc1a",
-            "sha": "54f647b7e1bb85c95cddabcd46b0c578ec92bc1a",
-            "integrity": "sha256-d2058828e341ca033ef78e6359f0f36f935272b15d41919398355d592f14f8ca"
+            "ref": "github/codeql-action/upload-sarif@99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+            "sha": "99df26d4f13ea111d4ec1a7dddef6063f76b97e9",
+            "integrity": "sha256-7752f0c77f742b852bfdc6dc67fa87f3685f3e936a5df7ffcdb315d51ebefa69"
           }
         ]
       }
@@ -247,9 +247,9 @@
     ],
     "ossf/scorecard-action": [
       {
-        "version": "4eaacf0543bb3f2c246792bd56e8cdeffafb205a",
-        "sha": "4eaacf0543bb3f2c246792bd56e8cdeffafb205a",
-        "integrity": "sha256-272458b277268dff201d4e5bb8d7bfcba6376ee2a166c324f8a7ce3f21dcec78",
+        "version": "2d1146689b8cda280b9bc96326124645441f03bc",
+        "sha": "2d1146689b8cda280b9bc96326124645441f03bc",
+        "integrity": "sha256-13765c3af43710d48aa8904f59985c2b2aa7a0c84370260732ae348b89b06714",
         "dependencies": []
       }
     ],

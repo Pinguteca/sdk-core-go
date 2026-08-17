@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-14T07:46:34.149Z",
+  "generated": "2026-08-17T11:44:05.727Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -34,9 +34,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "dad1bfd3df957f44999b559dd69dc1671cb4e9ea",
-        "sha": "dad1bfd3df957f44999b559dd69dc1671cb4e9ea",
-        "integrity": "sha256-67430a6213d482c0dcdf4cc4e6b882f06e340d3424695423bf72db2603eb589a",
+        "version": "9e7f7633ff6f6d6048a9418a68d48f288f50eb14",
+        "sha": "9e7f7633ff6f6d6048a9418a68d48f288f50eb14",
+        "integrity": "sha256-58cd336a3a508269cc25167b897de65be3ff847ba3fa856ec2b04fefc4028c84",
         "dependencies": []
       }
     ],

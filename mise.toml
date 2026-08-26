@@ -11,11 +11,11 @@ disable_default_registry = true
 disable_backends = ["asdf", "vfox", "ubi"]
 
 [tools]
-"github:mongodb/kingfisher" = "1.108.0"
+"github:mongodb/kingfisher" = "1.110.0"
 cocogitto = "7.0.0"
-pinact = "4.1.0"
-prek = "0.4.10"
-syft = "1.48.0"
+pinact = "4.1.1"
+prek = "0.4.12"
+syft = "1.50.0"
 go = "1.26.5"
 golangci-lint = "2.12.2"
 

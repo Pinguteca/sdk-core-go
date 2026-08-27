@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-08-24T09:09:16.730Z",
+  "generated": "2026-08-27T07:51:05.167Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "bf7454d06d71f1098171f2acdf0cd4708d7b5920",
-        "sha": "bf7454d06d71f1098171f2acdf0cd4708d7b5920",
-        "integrity": "sha256-daac05502ea3dad868b4dca00d847d9fbab3a09fe4c00f450822636184b4c6e6",
+        "version": "b09bb98e06d4d774595224525879c09bc6e98c40",
+        "sha": "b09bb98e06d4d774595224525879c09bc6e98c40",
+        "integrity": "sha256-d9940995f899700153c14cd8b82f7d075961cda11104ebe834de26c9d7093896",
         "dependencies": []
       }
     ],
@@ -64,9 +64,9 @@
         "dependencies": []
       },
       {
-        "version": "f205ea1c3313d32999d8d6a48b4f6530d4437b38",
-        "sha": "f205ea1c3313d32999d8d6a48b4f6530d4437b38",
-        "integrity": "sha256-50076922880184d8445b0d841e01679edc1b4f5d8bbbfae057d0138240119772",
+        "version": "5595ccaf912efad79be6eef63a5619ff05969be3",
+        "sha": "5595ccaf912efad79be6eef63a5619ff05969be3",
+        "integrity": "sha256-bb8877670933af438fe228df21739d3a2d424a76c1c5b73913b09106ae50d141",
         "dependencies": []
       }
     ],
@@ -255,9 +255,9 @@
     ],
     "dorny/paths-filter": [
       {
-        "version": "7b450fff21473bca461d4b92ce414b9d0420d706",
-        "sha": "7b450fff21473bca461d4b92ce414b9d0420d706",
-        "integrity": "sha256-12f6f5e19067a0fb06a22badef2628332e6bc6d2e9c0cb6f22f7de0ba455c680",
+        "version": "ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d",
+        "sha": "ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d",
+        "integrity": "sha256-7f9e3cac69d71c2b0c8d766c8569a1fe5994447dbb105a6ec7f0c86b8ec69bc2",
         "dependencies": []
       }
     ],

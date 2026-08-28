@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-08-27T07:51:05.167Z",
+  "generated": "2026-08-28T07:04:58.127Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -86,9 +86,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "50842263c20a7c46bd0065b9e624d3c569db061e",
-        "sha": "50842263c20a7c46bd0065b9e624d3c569db061e",
-        "integrity": "sha256-df949ce31978a47e36fc1bd364f4c33e5224ae0ff9135ba781d841e70215615b",
+        "version": "d63ba7532e0942965320cd8d73cbae4c7b3c5283",
+        "sha": "d63ba7532e0942965320cd8d73cbae4c7b3c5283",
+        "integrity": "sha256-550443fc0387531f67a727603ca18a50aa7b87623463db14ae9f16afbf9f2d7d",
         "dependencies": []
       }
     ],

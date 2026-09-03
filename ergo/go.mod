@@ -1,3 +1,3 @@
 module github.com/Pinguteca/sdk-core-go/ergo
 
-go 1.26.5
+go 1.26.6

@@ -16,7 +16,7 @@ cocogitto = "7.0.0"
 pinact = "4.1.1"
 prek = "0.4.13"
 syft = "1.51.0"
-go = "1.26.5"
+go = "1.26.6"
 golangci-lint = "2.12.2"
 
 [tasks."secret:scan"]

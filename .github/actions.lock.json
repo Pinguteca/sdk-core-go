@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-08-28T07:04:58.127Z",
+  "generated": "2026-09-07T08:43:30.956Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "b09bb98e06d4d774595224525879c09bc6e98c40",
-        "sha": "b09bb98e06d4d774595224525879c09bc6e98c40",
-        "integrity": "sha256-d9940995f899700153c14cd8b82f7d075961cda11104ebe834de26c9d7093896",
+        "version": "05e31511f85b41b11d1cf0ef85d0992719546e2c",
+        "sha": "05e31511f85b41b11d1cf0ef85d0992719546e2c",
+        "integrity": "sha256-97b9d301b13d63bfa06c519d5286d1c116f1c16277f5c914a1d6db9655fe4843",
         "dependencies": []
       }
     ],
@@ -34,9 +34,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "7e36c90d9ab29c415a2384db3006f3ec8a8cc654",
-        "sha": "7e36c90d9ab29c415a2384db3006f3ec8a8cc654",
-        "integrity": "sha256-56693be989605f349cec15c6031e46ea5307814249edd1d6806625376ec9ae9c",
+        "version": "3c2e0cf82a5b2e5249f0d3635a4d83d0ae861518",
+        "sha": "3c2e0cf82a5b2e5249f0d3635a4d83d0ae861518",
+        "integrity": "sha256-f917a3aba744f40ad13830de98bf822822c0e496937ea6f5b62a3558c9e7df20",
         "dependencies": []
       }
     ],
@@ -64,9 +64,9 @@
         "dependencies": []
       },
       {
-        "version": "5595ccaf912efad79be6eef63a5619ff05969be3",
-        "sha": "5595ccaf912efad79be6eef63a5619ff05969be3",
-        "integrity": "sha256-bb8877670933af438fe228df21739d3a2d424a76c1c5b73913b09106ae50d141",
+        "version": "ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd",
+        "sha": "ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd",
+        "integrity": "sha256-3f7ebd6171a5169e7e2faaca5885396cb591065735f9e59454a0505ae642f766",
         "dependencies": []
       }
     ],
@@ -86,9 +86,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "d63ba7532e0942965320cd8d73cbae4c7b3c5283",
-        "sha": "d63ba7532e0942965320cd8d73cbae4c7b3c5283",
-        "integrity": "sha256-550443fc0387531f67a727603ca18a50aa7b87623463db14ae9f16afbf9f2d7d",
+        "version": "dbe5299849118fd6f099ba563d263d770955a64a",
+        "sha": "dbe5299849118fd6f099ba563d263d770955a64a",
+        "integrity": "sha256-21bd8a5def4861b68e824b2663ef9b1fea0aa1f0d4c1c62678298e2f80144dbe",
         "dependencies": []
       }
     ],

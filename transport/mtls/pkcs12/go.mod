@@ -1,6 +1,6 @@
 module github.com/Pinguteca/sdk-core-go/transport/mtls/pkcs12
 
-go 1.26.6
+go 1.27.0
 
 require (
 	github.com/Pinguteca/sdk-core-go v0.1.1

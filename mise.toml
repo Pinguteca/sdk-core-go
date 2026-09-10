@@ -16,8 +16,8 @@ cocogitto = "7.0.0"
 pinact = "4.1.1"
 prek = "0.4.14"
 syft = "1.51.0"
-go = "1.26.6"
-golangci-lint = "2.12.2"
+go = "1.27.0"
+golangci-lint = "2.13.1"
 
 [tasks."secret:scan"]
 run = "kingfisher scan . --no-validate --redact"

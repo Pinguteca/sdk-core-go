@@ -25,12 +25,12 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/mongodb/kingfisher"
-rev = "v1.101.0"
+rev = "v1.113.0"
 hooks = [{ id = "kingfisher" }]
 
 [[repos]]
 repo = "https://github.com/golangci/golangci-lint"
-rev = "v2.12.2"
+rev = "v2.13.2"
 hooks = [
   { id = "golangci-lint-config-verify",
     stages = ["pre-push"],

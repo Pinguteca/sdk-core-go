@@ -3,7 +3,7 @@ module github.com/Pinguteca/sdk-core-go/presets
 go 1.26.6
 
 require (
-	connectrpc.com/connect v1.20.0
+	connectrpc.com/connect v1.21.0
 	github.com/Pinguteca/sdk-core-go v0.1.1
 	github.com/Pinguteca/sdk-core-go/breaker v0.1.1
 	github.com/Pinguteca/sdk-core-go/otel v0.0.2

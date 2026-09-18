@@ -25,7 +25,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/mongodb/kingfisher"
-rev = "v1.113.0"
+rev = "v2.2.0"
 hooks = [{ id = "kingfisher" }]
 
 [[repos]]

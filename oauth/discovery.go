@@ -114,6 +114,13 @@ func validateDiscoverConfig(cfg DiscoverConfig) error {
 // pin large response bodies in memory through the SDK.
 const discoveryErrorBodyLimit = 4096
 
+// discoveryBodyLimit caps the success-path discovery document for the
+// same reason the error path is capped: the issuer is untrusted network
+// input, and the issuer-equality check at RFC 8414 3.3 only runs after
+// the document has been decoded. Without this bound a hostile issuer
+// allocates unbounded memory in the client before it is ever rejected.
+const discoveryBodyLimit = 1 << 20 // 1 MiB
+
 func parseDiscoveryResponse(resp *http.Response, expectedIssuer string) (*OidcMetadata, error) {
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
 		body, _ := io.ReadAll(io.LimitReader(resp.Body, discoveryErrorBodyLimit))
@@ -124,8 +131,21 @@ func parseDiscoveryResponse(resp *http.Response, expectedIssuer string) (*OidcMe
 		}
 	}
 
+	// Read one byte past the limit so an oversized document is reported
+	// as such instead of surfacing as a confusing JSON syntax error.
+	body, err := io.ReadAll(io.LimitReader(resp.Body, discoveryBodyLimit+1))
+	if err != nil {
+		return nil, fmt.Errorf("oauth: read discovery document: %w", err)
+	}
+	if len(body) > discoveryBodyLimit {
+		return nil, &OAuthError{
+			Code:        ErrorCodeInvalidIssuer,
+			Description: fmt.Sprintf("discovery document exceeds %d bytes", discoveryBodyLimit),
+		}
+	}
+
 	var md OidcMetadata
-	if err := json.NewDecoder(resp.Body).Decode(&md); err != nil {
+	if err := json.Unmarshal(body, &md); err != nil {
 		return nil, fmt.Errorf("oauth: decode discovery document: %w", err)
 	}
 	if md.Issuer != expectedIssuer {

@@ -19,6 +19,11 @@ import (
 // package, not a runtime condition.
 var ErrCorruptSingleflight = errors.New("caching: corrupt singleflight result")
 
+// ErrBodyTooLarge is returned when an upstream response exceeds
+// [Options.MaxBodyBytes]. Branch on it with [errors.Is] to distinguish
+// a payload that outgrew the cache from a transport failure.
+var ErrBodyTooLarge = errors.New("caching: response body too large")
+
 // Transport wraps inner with HTTP-layer caching per RFC 0015. When
 // opts.Store or opts.KeyScope is nil, Transport returns inner
 // unchanged (default-deny tenant isolation: forgetting to wire
@@ -159,6 +164,15 @@ func (t *transport) refreshAsync(req *http.Request, key string, spec Spec, prev 
 	}()
 }
 
+// maxBodyBytes resolves the configured per-response ceiling, falling
+// back to [DefaultMaxBodyBytes] when the consumer left it unset.
+func (t *transport) maxBodyBytes() int64 {
+	if t.opts.MaxBodyBytes > 0 {
+		return t.opts.MaxBodyBytes
+	}
+	return DefaultMaxBodyBytes
+}
+
 func (t *transport) processResponse(
 	ctx context.Context, key string, spec Spec, prev Entry, hadPrev bool, resp *http.Response,
 ) (Entry, error) {
@@ -179,14 +193,14 @@ func (t *transport) processResponse(
 		_, _ = io.Copy(io.Discard, resp.Body)
 		return refreshed, nil
 	case resp.StatusCode == http.StatusNotFound && spec.NegativeTTL > 0:
-		entry, err := bufferResponse(resp, spec.NegativeTTL, 0, t.opts.Now())
+		entry, err := bufferResponse(resp, spec.NegativeTTL, 0, t.opts.Now(), t.maxBodyBytes())
 		if err != nil {
 			return Entry{}, err
 		}
 		_ = t.opts.Store.Set(ctx, key, entry)
 		return entry, nil
 	case resp.StatusCode >= http.StatusOK && resp.StatusCode < http.StatusMultipleChoices:
-		entry, err := bufferResponse(resp, spec.TTL, spec.SWR, t.opts.Now())
+		entry, err := bufferResponse(resp, spec.TTL, spec.SWR, t.opts.Now(), t.maxBodyBytes())
 		if err != nil {
 			return Entry{}, err
 		}
@@ -195,17 +209,25 @@ func (t *transport) processResponse(
 	default:
 		// Other errors are not cached. Buffer the response so the
 		// caller still receives it; do not store.
-		return bufferResponse(resp, 0, 0, t.opts.Now())
+		return bufferResponse(resp, 0, 0, t.opts.Now(), t.maxBodyBytes())
 	}
 }
 
 // bufferResponse drains the response body and packs it into an
 // [Entry]. The caller closes the response body via defer; the body
 // reader has been fully consumed here.
-func bufferResponse(resp *http.Response, ttl, swr time.Duration, now time.Time) (Entry, error) {
-	body, err := io.ReadAll(resp.Body)
+//
+// maxBody bounds the read. Reading one byte past the cap is what makes
+// an oversized body distinguishable from one that exactly fills it.
+func bufferResponse(
+	resp *http.Response, ttl, swr time.Duration, now time.Time, maxBody int64,
+) (Entry, error) {
+	body, err := io.ReadAll(io.LimitReader(resp.Body, maxBody+1))
 	if err != nil {
 		return Entry{}, fmt.Errorf("caching: read response body: %w", err)
+	}
+	if int64(len(body)) > maxBody {
+		return Entry{}, fmt.Errorf("%w: response exceeds %d bytes", ErrBodyTooLarge, maxBody)
 	}
 	return Entry{
 		Body:    body,

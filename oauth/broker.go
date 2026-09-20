@@ -168,16 +168,18 @@ func (s *LocalEndpointBrokerSource) exchangeLocked(ctx context.Context) (string,
 }
 
 func (s *LocalEndpointBrokerSource) expired() bool {
-	if s.cache.ExpiresIn <= 0 {
-		return false
-	}
 	maxDur := s.cfg.MaxCacheDuration
-	if maxDur == 0 {
+	if maxDur <= 0 {
 		maxDur = brokerCacheMax
 	}
-	supplied := time.Duration(s.cache.ExpiresIn) * time.Second
-	if supplied < maxDur {
-		maxDur = supplied
+	// expires_in only ever tightens the ceiling. A broker that omits the
+	// field does not get an unlimited cache lifetime: RFC 0019 makes the
+	// cap the freshness guarantee precisely because the broker can rotate
+	// a token at any moment without telling the SDK.
+	if s.cache.ExpiresIn > 0 {
+		if supplied := time.Duration(s.cache.ExpiresIn) * time.Second; supplied < maxDur {
+			maxDur = supplied
+		}
 	}
 	// No skew window. The Direct path uses skew to refresh before the
 	// IdP's fixed expiry; broker tokens can rotate at any moment so

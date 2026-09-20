@@ -138,10 +138,10 @@ func TestTransport_AppliesTLSConfig(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Config: %v", err)
 	}
+	// Transport returns a non-nil *http.Transport on every path, so a
+	// nil check here is dead code and staticcheck reads it as evidence
+	// the later dereferences are unguarded.
 	tr := mtls.Transport(cfg)
-	if tr == nil {
-		t.Fatal("Transport returned nil")
-	}
 	if tr.TLSClientConfig != cfg {
 		t.Error("TLSClientConfig was not applied to the returned Transport")
 	}

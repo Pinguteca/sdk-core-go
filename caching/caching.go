@@ -74,8 +74,14 @@ type Cache interface {
 	// Delete removes the cache entry for key. No-op when absent.
 	Delete(ctx context.Context, key string) error
 
-	// DeleteMatching removes every entry whose key contains prefix as
-	// a substring. The transport composes the prefix as
-	// `{scope}:{service/method}:` during write-triggered invalidation.
+	// DeleteMatching removes every entry whose key begins with prefix.
+	// The transport composes the prefix as `{scope}:{service/method}:`
+	// during write-triggered invalidation.
+	//
+	// Implementations MUST anchor the comparison at the start of the
+	// key. A substring match would let one tenant evict another's
+	// entries whenever its scope is a suffix of the other's (`42`
+	// matching inside `142`), breaking the tenant isolation RFC 0015
+	// requires.
 	DeleteMatching(ctx context.Context, prefix string) error
 }

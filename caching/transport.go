@@ -51,10 +51,13 @@ func Transport(inner http.RoundTripper, opts Options) http.RoundTripper {
 	return &transport{inner: inner, opts: opts}
 }
 
+// Field order is governed by govet's fieldalignment check: Options ends
+// in a non-pointer int64, so it sits last to keep the pointer-bearing
+// bytes contiguous.
 type transport struct {
 	inner http.RoundTripper
-	opts  Options
 	sf    singleflight.Group
+	opts  Options
 }
 
 // RoundTrip implements [http.RoundTripper].

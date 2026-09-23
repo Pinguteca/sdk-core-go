@@ -47,21 +47,22 @@ type Options struct {
 	// works without it.
 	Logger *slog.Logger
 
-	// MaxBodyBytes caps the size of a response body the transport will
-	// buffer into a cache entry. Zero selects [DefaultMaxBodyBytes].
-	//
-	// The upstream server is untrusted network input: it chooses the
-	// response length, and without a bound it chooses how much memory
-	// this process allocates. A response over the cap fails with
-	// [ErrBodyTooLarge] rather than being buffered, because the entry
-	// is shared across singleflight callers and cannot be streamed
-	// past the cache. Consumers expecting large payloads on a cached
-	// method should raise this or drop the method from MethodConfig.
-	MaxBodyBytes int64
-
 	// Now overrides the clock for tests. Production code leaves this
 	// nil so the transport uses [time.Now].
 	Now func() time.Time
+
+	// MaxBodyBytes caps the size of a response body the transport will
+	// buffer into a cache entry. Zero selects [DefaultMaxBodyBytes].
+	//
+	// A response over the cap fails with [ErrBodyTooLarge] rather than
+	// being buffered, because the entry is shared across singleflight
+	// callers and cannot be streamed past the cache. Consumers
+	// expecting large payloads on a cached method should raise this or
+	// drop the method from MethodConfig.
+	//
+	// Declared last so the pointer-width fields stay grouped for the
+	// fieldalignment check.
+	MaxBodyBytes int64
 }
 
 // DefaultMaxBodyBytes bounds a single cached response body. It matches

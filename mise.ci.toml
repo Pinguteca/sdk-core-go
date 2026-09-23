@@ -18,13 +18,18 @@ git config --global core.fsync -all
 description = "Optimize Git config for CI (disable compression, fsync)"
 
 [tasks."ci:build"]
-run = "go build ./..."
-description = "Compile every Go package in CI"
+run = "go run ./tools/workspace-run -- build ./..."
+description = "Compile every Go package in every workspace module"
 
 [tasks."ci:test"]
-run = "go test -race -count=1 ./..."
-description = "Run Go tests with the race detector"
+# `go test ./...` resolves the pattern against the current module only,
+# so running it at the root silently skipped the nine companion modules.
+# workspace-run reads go.work and covers all of them.
+run = "go run ./tools/workspace-run -- test -race -count=1 ./..."
+description = "Run Go tests with the race detector across every workspace module"
 
 [tasks."ci:lint"]
-run = "golangci-lint run ./... --timeout=5m"
-description = "Lint Go code in CI"
+# golangci-lint resolves ./... against the current module too, so a root
+# invocation left the nine companion modules unlinted.
+run = "go run ./tools/workspace-run -cmd golangci-lint -- run ./... --timeout=5m"
+description = "Lint Go code in every workspace module"

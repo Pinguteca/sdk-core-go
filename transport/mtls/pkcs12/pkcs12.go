@@ -45,7 +45,7 @@ func Config(p12Path, password, caCertPath string, opts mtls.Options) (*tls.Confi
 
 	raw, err := mtls.ReadBoundedFile(p12Path, "pkcs12")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("mtls/pkcs12: read archive: %w", err)
 	}
 	if err := ensurePKCS12(raw); err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func Config(p12Path, password, caCertPath string, opts mtls.Options) (*tls.Confi
 
 	cfg, err := mtls.Assemble(cert, caCertPath, opts)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("mtls/pkcs12: assemble tls config: %w", err)
 	}
 	return cfg, nil
 }

@@ -46,18 +46,26 @@ description = "Run all linting"
 depends = ["lint:*"]
 
 [tasks.build]
-run = "go build ./..."
-description = "Build all Go packages"
+run = "go run ./tools/workspace-run -- build ./..."
+description = "Build every Go package in every workspace module"
 alias = "b"
 
 [tasks.test]
-run = "go test ./..."
-description = "Run all Go tests"
+# A bare `go test ./...` only covers the root module; workspace-run
+# reads go.work and covers all of them. The race detector lives in
+# test:race because -race needs cgo, which not every dev box has.
+run = "go run ./tools/workspace-run -- test ./..."
+description = "Run all Go tests across every workspace module"
 alias = "t"
 
+[tasks."test:race"]
+run = "go run ./tools/workspace-run -- test -race -count=1 ./..."
+description = "Run all Go tests with the race detector (requires cgo)"
+alias = "tr"
+
 [tasks."lint:go"]
-run = "golangci-lint run ./... --fix"
-description = "Lint Go code with autofix"
+run = "go run ./tools/workspace-run -cmd golangci-lint -- run ./... --fix"
+description = "Lint Go code with autofix across every workspace module"
 sources = ["**/*.go"]
 
 [tasks."lint:l2-deps"]

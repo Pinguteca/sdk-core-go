@@ -129,7 +129,10 @@ func TestTransport_OversizedBodyRejected(t *testing.T) {
 		MaxBodyBytes: limit,
 	})
 
-	_, err := tr.RoundTrip(newReq(t, "/svc/Get", "{}"))
+	resp, err := tr.RoundTrip(newReq(t, "/svc/Get", "{}"))
+	if resp != nil {
+		drain(t, resp)
+	}
 	if !errors.Is(err, ErrBodyTooLarge) {
 		t.Fatalf("expected ErrBodyTooLarge, got %v", err)
 	}

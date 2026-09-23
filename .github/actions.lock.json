@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-09-21T06:17:04.300Z",
+  "generated": "2026-09-23T11:32:49.300Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -37,14 +37,6 @@
         "version": "c2a87611a18de5b3828c5652fe268e992400cb5c",
         "sha": "c2a87611a18de5b3828c5652fe268e992400cb5c",
         "integrity": "sha256-6678ea05dd2e286ba45b4fea218c4af5cd69d8109de6861d0a4c1a9ddb80c531",
-        "dependencies": []
-      }
-    ],
-    "chainguard-dev/actions/setup-gitsign": [
-      {
-        "version": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
-        "sha": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
-        "integrity": "sha256-f4bffe68840aa42bf0306bd4d387fb3cea129f8fee0ac7179c50c725d7899298",
         "dependencies": []
       }
     ],
@@ -266,6 +258,14 @@
         "version": "249970729cb0ef3589644e2896645e5dc5ba9c38",
         "sha": "249970729cb0ef3589644e2896645e5dc5ba9c38",
         "integrity": "sha256-4ae2b62acf39c2fe6f1a36218a6d0b8d2c477f13799ee658da2d0ee5ffd370e2",
+        "dependencies": []
+      }
+    ],
+    "chainguard-dev/actions/setup-gitsign": [
+      {
+        "version": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
+        "sha": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
+        "integrity": "sha256-f4bffe68840aa42bf0306bd4d387fb3cea129f8fee0ac7179c50c725d7899298",
         "dependencies": []
       }
     ],

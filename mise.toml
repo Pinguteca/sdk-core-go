@@ -14,10 +14,10 @@ disable_backends = ["asdf", "vfox", "ubi"]
 "github:mongodb/kingfisher" = "1.113.0"
 cocogitto = "7.0.0"
 pinact = "5.0.0"
-prek = "0.4.14"
-syft = "1.51.0"
-go = "1.26.6"
-golangci-lint = "2.12.2"
+prek = "0.5.3"
+syft = "1.52.0"
+go = "1.27.1"
+golangci-lint = "2.13.2"
 
 [tasks."secret:scan"]
 run = "kingfisher scan . --no-validate --redact"

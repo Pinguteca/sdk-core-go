@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-09-23T12:02:51.607Z",
+  "generated": "2026-10-05T11:07:34.520Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -56,9 +56,9 @@
         "dependencies": []
       },
       {
-        "version": "b96794f015dfd88f77b49b1c93e0fa7110f94c63",
-        "sha": "b96794f015dfd88f77b49b1c93e0fa7110f94c63",
-        "integrity": "sha256-30d6dca75b37ecf4eb2a3cf018ac1fad653d418c2ed0bb42657b029a9001aade",
+        "version": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+        "sha": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+        "integrity": "sha256-bf19b494344123a932d0c3059dc6093091e99daa01889f24bf917093a87fd556",
         "dependencies": []
       }
     ],
@@ -78,9 +78,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "8b682e1e7e512151d73a6b9449cbff173846226e",
-        "sha": "8b682e1e7e512151d73a6b9449cbff173846226e",
-        "integrity": "sha256-fe567015e540da4232413b5c27a9a1e7424b6cbf17f84528a28829057c35f8e1",
+        "version": "2085657ab2c7f48c58edcc767fba576f63bea76b",
+        "sha": "2085657ab2c7f48c58edcc767fba576f63bea76b",
+        "integrity": "sha256-703d5b501141eef0d4a4634ac3d41d3caebb2938c00248370b74aedca81204b4",
         "dependencies": []
       }
     ],

@@ -3,7 +3,7 @@ module github.com/Pinguteca/sdk-core-go/breaker
 go 1.26.6
 
 require (
-	connectrpc.com/connect v1.20.0
+	connectrpc.com/connect v1.21.0
 	github.com/Pinguteca/sdk-core-go v0.1.1
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260511170946-3700d4141b60
 	google.golang.org/protobuf v1.36.12

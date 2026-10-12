@@ -6,6 +6,7 @@ use (
 	./caching
 	./compression
 	./ergo
+	./experimental/hedgev2
 	./hedge
 	./logging
 	./otel

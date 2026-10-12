@@ -66,8 +66,10 @@ jobs:
         run: |
           git add -- .github/actions.lock.json
           git diff --cached --quiet && exit 0
+          # Renovate ignores commits from this exact address (gitIgnoredAuthors)
+          # and keeps managing its branch after the lockfile commit.
           git -c user.name="github-actions[bot]" \
-            -c user.email="41898349+github-actions[bot]@users.noreply.github.com" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -m "ci: regenerate .github/actions.lock.json [skip ci]"
           auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
           echo "::add-mask::${auth}"

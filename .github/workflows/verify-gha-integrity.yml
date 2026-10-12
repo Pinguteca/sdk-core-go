@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      id-token: write # OIDC token for octo-sts so checkout can read the repo
-      contents: write # auto-commit regenerated actions.lock.json on drift
+      id-token: write # OIDC token for octo-sts to fetch a scoped repo token
+      contents: write # commit the regenerated lockfile back to the branch
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
@@ -36,6 +36,10 @@ jobs:
         with:
           scope: Pinguteca/sdk-core-go
           identity: verify-gha-integrity
+      - name: Optimize Git config for CI
+        run: |
+          git config --global core.compression 0
+          git config --global core.fsync -all
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

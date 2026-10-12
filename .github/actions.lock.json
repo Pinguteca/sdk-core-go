@@ -269,14 +269,6 @@
         "dependencies": []
       }
     ],
-    "stefanzweifel/git-auto-commit-action": [
-      {
-        "version": "4a55954c782fc1ea30b9056cd3e7a2b40ca8887d",
-        "sha": "4a55954c782fc1ea30b9056cd3e7a2b40ca8887d",
-        "integrity": "sha256-1c615f58e76f039624400211f8402c132a3c1cd2cc40bbd14dd1ecb43ebedc88",
-        "dependencies": []
-      }
-    ],
     "gjtorikian/gh-actions-lockfile": [
       {
         "version": "8abbeb1fe0a4bf20279c81fa206e6a2fc862a830",

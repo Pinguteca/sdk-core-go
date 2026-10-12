@@ -39,11 +39,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # Persist the octo-sts token (not GITHUB_TOKEN) so the
-          # auto-commit step can push the regenerated lockfile.
-          # The trust policy in .github/chainguard scopes the grant
-          # to this workflow and the token expires in an hour.
-          persist-credentials: true
+          # Check out the branch itself, not the PR merge commit, so a
+          # regenerated lockfile can be pushed back to it.
+          ref: ${{ github.head_ref || github.ref_name }}
+          # Keep the token out of .git/config; only the push step gets it.
+          persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Verify lockfile
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
@@ -54,9 +54,18 @@ jobs:
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: generate
-      - name: Auto-commit regenerated lockfile
+      - name: Commit regenerated lockfile
         if: failure()
-        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
-        with:
-          commit_message: "ci: regenerate .github/actions.lock.json [skip ci]"
-          file_pattern: .github/actions.lock.json
+        env:
+          TOKEN: ${{ steps.octo-sts.outputs.token }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          git add -- .github/actions.lock.json
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898349+github-actions[bot]@users.noreply.github.com" \
+            commit -m "ci: regenerate .github/actions.lock.json [skip ci]"
+          auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
+          echo "::add-mask::${auth}"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth}" \
+            push origin "HEAD:refs/heads/${BRANCH}"

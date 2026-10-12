@@ -189,7 +189,8 @@ func (s *hedgedStream) race(out proto.Message) error {
 		case r := <-results:
 			timer.Stop()
 			if st.record(r, launch) {
-				return adopt(parent, r, out)
+				adopt(parent, r, out)
+				return nil
 			}
 		case <-timer.C():
 			st.fire(launch)
@@ -274,11 +275,11 @@ func (s *hedgedStream) attempt(ctx context.Context, req, resp proto.Message) (er
 
 // adopt copies the winning attempt's response and call metadata onto the
 // caller's message and CallInfo.
-func adopt(parent *connect.CallInfo, r result, out proto.Message) error {
+func adopt(parent *connect.CallInfo, r result, out proto.Message) {
 	proto.Reset(out)
 	proto.Merge(out, r.resp)
 	if parent == nil {
-		return nil
+		return
 	}
 	parent.Spec = r.info.Spec
 	parent.PeerAddr = r.info.PeerAddr
@@ -291,7 +292,6 @@ func adopt(parent *connect.CallInfo, r result, out proto.Message) error {
 	parent.TransportInfo = r.info.TransportInfo
 	copyHeader(parent.ResponseHeader(), r.info.ResponseHeader())
 	copyHeader(parent.ResponseTrailer(), r.info.ResponseTrailer())
-	return nil
 }
 
 func copyHeader(dst, src *connect.Header) {

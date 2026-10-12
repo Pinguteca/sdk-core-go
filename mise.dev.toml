@@ -1,0 +1,8 @@
+# Local development tooling, layered on top of mise.toml when the `dev` env is
+# active. .miserc.toml sets `env = ["dev"]`, so this loads by default for local
+# work but never in CI (CI sets MISE_ENV=ci). Everything here is hook, format, or
+# lint tooling the build and release never need.
+
+[tools]
+prek = "0.4.14"
+pinact = "5.0.0"      # pin GitHub Actions to a SHA (prek pre-push)

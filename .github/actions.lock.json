@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-10-12T14:28:12.822Z",
+  "generated": "2026-10-12T17:49:18.045Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -263,17 +263,9 @@
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
-        "sha": "fed81b5f62f7e11d0c33331f4dd488f6aaff71cc",
-        "integrity": "sha256-f4bffe68840aa42bf0306bd4d387fb3cea129f8fee0ac7179c50c725d7899298",
-        "dependencies": []
-      }
-    ],
-    "stefanzweifel/git-auto-commit-action": [
-      {
-        "version": "4a55954c782fc1ea30b9056cd3e7a2b40ca8887d",
-        "sha": "4a55954c782fc1ea30b9056cd3e7a2b40ca8887d",
-        "integrity": "sha256-1c615f58e76f039624400211f8402c132a3c1cd2cc40bbd14dd1ecb43ebedc88",
+        "version": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
+        "sha": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
+        "integrity": "sha256-ea4a3a4bc24798f661f935a77a8c84c47467cc73ce4e9e74bb015d5866e62594",
         "dependencies": []
       }
     ],

@@ -9,6 +9,9 @@ locked = false
 prefer_offline = true
 disable_default_registry = true
 disable_backends = ["asdf", "vfox", "ubi"]
+# Decide task freshness by hashing source contents, not mtimes. A fresh checkout
+# resets mtimes, so mtime comparison would rerun tasks needlessly.
+task.source_freshness_hash_contents = true
 
 [tools]
 "github:mongodb/kingfisher" = "1.113.0"

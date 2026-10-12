@@ -35,7 +35,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       id-token: write # OIDC token for octo-sts to fetch a scoped repo token
-      contents: write # commit optimized image assets back to a feature branch
+      contents: write # commit optimized images to a feature branch
       pull-requests: write # open the optimization PR against main
     steps:
       - name: Harden Runner

@@ -8,3 +8,4 @@ permissions:
   # accepts top-level GitHub permissions and rejects hyphenated
   # keys here.
   contents: write
+  pull_requests: write

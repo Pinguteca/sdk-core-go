@@ -14,22 +14,22 @@ disable_backends = ["asdf", "vfox", "ubi"]
 task.source_freshness_hash_contents = true
 
 [tools]
-# Tools shared by local dev and CI. Local-only tooling (git hooks, YAML/JSON
-# formatting, workflow linters) lives in mise.dev.toml. kingfisher sits here
-# because the secret-scan workflow runs `mise run secret:scan` under MISE_ENV=ci.
+# Tools shared by local dev and CI. Local-only tooling (git hooks, action
+# pinning) lives in mise.dev.toml. kingfisher sits here because the
+# secret-scan workflow runs `mise run secret:scan` under MISE_ENV=ci.
 "github:mongodb/kingfisher" = "2.10.0"
 cocogitto = "7.0.0"
-syft = "1.51.0"
+syft = "1.54.0"
 go = "1.26.6"
 golangci-lint = "2.12.2"
 
 [tasks."secret:scan"]
-run = "kingfisher scan . --no-validate --redact"
+run = "kingfisher scan . --no-validate --redact --format json --output kingfisher-results.json"
 description = "Scan codebase for secrets with Kingfisher"
 alias = "ss"
 
 [tasks."secret:validate"]
-run = "kingfisher scan . --redact"
+run = "kingfisher scan . --redact --validation-rps 2"
 description = "Validate (and revoke) live secrets found by Kingfisher"
 alias = "sv"
 

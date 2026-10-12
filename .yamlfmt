@@ -3,3 +3,5 @@
 formatter:
   type: basic
   retain_line_breaks_single: true
+  # yamlfmt defaults to CRLF on Windows, which would flag every LF file.
+  line_ending: lf

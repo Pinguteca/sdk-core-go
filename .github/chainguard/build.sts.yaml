@@ -3,6 +3,6 @@ issuer: https://token.actions.githubusercontent.com
 # never get an OIDC token, so they cannot reach this policy.
 subject_pattern: "^repo:Pinguteca/sdk-core-go:(pull_request|ref:refs/heads/main)$"
 claim_pattern:
-  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/build-(go|dotnet|dart)\\.yml@refs/(heads/main|pull/[0-9]+/merge)"
+  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/build-go\\.yml@refs/(heads/main|pull/[0-9]+/merge)"
 permissions:
   contents: read

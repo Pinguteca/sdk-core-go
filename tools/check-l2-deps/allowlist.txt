@@ -13,6 +13,8 @@
 
 # Connect runtime (RFC 0002 exemption).
 connectrpc.com/connect
+# connect-go v2 (ADR 0013). The v1 entry above goes with the last port.
+connectrpc.com/connect/v2
 google.golang.org/protobuf
 google.golang.org/genproto/googleapis/*
 

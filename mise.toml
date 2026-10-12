@@ -14,7 +14,7 @@ disable_backends = ["asdf", "vfox", "ubi"]
 task.source_freshness_hash_contents = true
 
 [tools]
-"github:mongodb/kingfisher" = "1.113.0"
+"github:mongodb/kingfisher" = "2.10.0"
 cocogitto = "7.0.0"
 pinact = "5.0.0"
 prek = "0.4.14"

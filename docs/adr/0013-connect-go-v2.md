@@ -1,6 +1,6 @@
 # ADR 0013: Move to connect-go v2
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-10-12
 - **Deciders:** SDK team
 - **Affects:** every package importing `connectrpc.com/connect`: auth,

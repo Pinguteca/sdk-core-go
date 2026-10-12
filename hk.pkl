@@ -6,7 +6,6 @@ local pre_commit = new Mapping<String, Step> {
     ["check-added-large-files"] = (Builtins.check_added_large_files) { exclude = Regex(#"^\.hk/"#) }
     ["check-case-conflict"] = (Builtins.check_case_conflict) { exclude = Regex(#"^\.hk/"#) }
     ["check-executables-have-shebangs"] = (Builtins.check_executables_have_shebangs) { exclude = Regex(#"^\.hk/"#) }
-    ["check-yaml"] = (Builtins.yamllint) { exclude = Regex(#"^\.hk/"#) }
     ["yamlfmt"] = (Builtins.yamlfmt) { exclude = Regex(#"^\.hk/"#) }
     // jq rewrites JSON with sorted keys. Skip files another tool owns:
     // renovate.json keeps its hand-ordered layout, and actions.lock.json is

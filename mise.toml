@@ -23,6 +23,12 @@ syft = "1.54.0"
 go = "1.26.6"
 golangci-lint = "2.12.2"
 
+[env]
+# Build with the Go mise installed. Under the default GOTOOLCHAIN=auto, a
+# go.work or go.mod asking for a newer Go makes the go command download and
+# run that toolchain instead, outside the mise pin and lock.
+GOTOOLCHAIN = "local"
+
 [tasks."secret:scan"]
 run = "kingfisher scan . --no-validate --redact --format json --output kingfisher-results.json"
 description = "Scan codebase for secrets with Kingfisher"

@@ -5,21 +5,29 @@ on:
     branches: [main]
     paths:
       - "**/*.go"
-      - "go.mod"
-      - "go.sum"
+      - "**/go.mod"
+      - "**/go.sum"
+      - "go.work"
+      - "go.work.sum"
       - ".golangci.yaml"
       - "mise.toml"
       - "mise.ci.toml"
+      - "mise.lock"
+      - ".github/workflows/build-go.yml"
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
     paths:
       - "**/*.go"
-      - "go.mod"
-      - "go.sum"
+      - "**/go.mod"
+      - "**/go.sum"
+      - "go.work"
+      - "go.work.sum"
       - ".golangci.yaml"
       - "mise.toml"
       - "mise.ci.toml"
+      - "mise.lock"
+      - ".github/workflows/build-go.yml"
 
 permissions: {}
 
@@ -78,3 +86,19 @@ jobs:
         run: mise run ci:test
       - name: Build
         run: mise run ci:build
+      # The go directive promises consumers that this Go is enough, so build
+      # and test on it too. go.work carries the highest module floor. A
+      # two-part floor such as 1.27 means 1.27.0; passed as is, mise would
+      # pick the newest 1.27 patch instead.
+      - name: Read the floor Go
+        id: floor
+        run: |
+          version=$(go work edit -json | jq -r .Go)
+          if [[ "$version" =~ ^[0-9]+\.[0-9]+$ ]]; then version="${version}.0"; fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+      - name: Test on the floor Go
+        env:
+          MISE_GO_VERSION: ${{ steps.floor.outputs.version }}
+        run: |
+          mise run ci:build
+          mise run ci:test

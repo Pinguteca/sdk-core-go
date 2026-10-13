@@ -5,21 +5,29 @@ on:
     branches: [main]
     paths:
       - "**/*.go"
-      - "go.mod"
-      - "go.sum"
+      - "**/go.mod"
+      - "**/go.sum"
+      - "go.work"
+      - "go.work.sum"
       - ".golangci.yaml"
       - "mise.toml"
       - "mise.ci.toml"
+      - "mise.lock"
+      - ".github/workflows/build-go.yml"
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
     paths:
       - "**/*.go"
-      - "go.mod"
-      - "go.sum"
+      - "**/go.mod"
+      - "**/go.sum"
+      - "go.work"
+      - "go.work.sum"
       - ".golangci.yaml"
       - "mise.toml"
       - "mise.ci.toml"
+      - "mise.lock"
+      - ".github/workflows/build-go.yml"
 
 permissions: {}
 

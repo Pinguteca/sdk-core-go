@@ -26,7 +26,7 @@ package presets
 import (
 	"fmt"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 
 	"github.com/Pinguteca/sdk-core-go/auth"
 	"github.com/Pinguteca/sdk-core-go/breaker"

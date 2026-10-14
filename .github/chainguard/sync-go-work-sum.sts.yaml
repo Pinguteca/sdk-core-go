@@ -1,0 +1,8 @@
+issuer: https://token.actions.githubusercontent.com
+# Pull request runs from branches in this repo only. Fork PRs never get an
+# OIDC token, so they cannot reach this policy.
+subject_pattern: "^repo:Pinguteca/sdk-core-go:pull_request$"
+claim_pattern:
+  workflow_ref: "Pinguteca/sdk-core-go/\\.github/workflows/sync-go-work-sum\\.yml@refs/pull/[0-9]+/merge"
+permissions:
+  contents: write

@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v0.1.1
+_commit: v0.1.2
 _src_path: https://github.com/Pinguteca/sdk-scaffold.git
 description: Reusable Connect-Go interceptors for Pinguteca SDKs (auth, retry, breaker,
     idempotency, otel)

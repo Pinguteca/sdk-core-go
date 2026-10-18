@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/Pinguteca/sdk-core-go v0.1.1
-	software.sslmate.com/src/go-pkcs12 v0.7.3
+	software.sslmate.com/src/go-pkcs12 v0.7.4
 )
 
 require golang.org/x/crypto v0.56.0 // indirect

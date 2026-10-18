@@ -3,31 +3,12 @@ name: Build (Go)
 on:
   push:
     branches: [main]
-    paths:
-      - "**/*.go"
-      - "**/go.mod"
-      - "**/go.sum"
-      - "go.work"
-      - "go.work.sum"
-      - ".golangci.yaml"
-      - "mise.toml"
-      - "mise.ci.toml"
-      - "mise.lock"
-      - ".github/workflows/build-go.yml"
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
-    paths:
-      - "**/*.go"
-      - "**/go.mod"
-      - "**/go.sum"
-      - "go.work"
-      - "go.work.sum"
-      - ".golangci.yaml"
-      - "mise.toml"
-      - "mise.ci.toml"
-      - "mise.lock"
-      - ".github/workflows/build-go.yml"
+# No workflow-level paths filter: when the build is a required check, a pull
+# request that never starts the workflow waits on it forever. The changes job
+# skips the build instead, and GitHub counts a skipped job as passing.
 
 permissions: {}
 
@@ -40,8 +21,52 @@ env:
   MISE_ENV: ci
 
 jobs:
+  changes:
+    name: Detect build changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read # checkout
+      pull-requests: read # list the pull request's changed files
+    outputs:
+      build: ${{ steps.filter.outputs.build }}
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+          disable-telemetry: "true"
+          disable-sudo-and-containers: "true"
+      - name: Optimize Git config for CI
+        run: |
+          git config --global core.compression 0
+          git config --global core.fsync -all
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Filter build inputs
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          filters: |
+            build:
+              - "**/*.go"
+              - "**/go.mod"
+              - "**/go.sum"
+              - "go.work"
+              - "go.work.sum"
+              - ".golangci.yaml"
+              - "mise.toml"
+              - "mise.ci.toml"
+              - "mise.lock"
+              - ".github/workflows/build-go.yml"
+
   build:
     name: Build, lint and test
+    needs: changes
+    # Always build main; build a pull request only when its build inputs changed.
+    if: github.event_name == 'push' || needs.changes.outputs.build == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

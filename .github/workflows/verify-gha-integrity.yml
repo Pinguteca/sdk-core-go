@@ -49,29 +49,55 @@ jobs:
           # Keep the token out of .git/config; only the push step gets it.
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
+      # Advisories are checked separately below, so only a real lockfile
+      # mismatch fails this step and leads to a regeneration.
       - name: Verify lockfile
+        id: verify
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: verify
+          skip-advisories: "true"
+          comment: "false"
+      # Fix drift only on pull requests: main takes changes through pull requests,
+      # so a push there just fails and asks for a lockfile PR.
       - name: Regenerate lockfile on failure
-        if: failure()
+        if: failure() && steps.verify.outcome == 'failure' && github.event_name == 'pull_request'
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: generate
       - name: Commit regenerated lockfile
-        if: failure()
+        if: failure() && steps.verify.outcome == 'failure' && github.event_name == 'pull_request'
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}
           BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
           git add -- .github/actions.lock.json
           git diff --cached --quiet && exit 0
+          # Never commit twice in a row: if the last commit already regenerated
+          # the lockfile and it still drifts, stop instead of looping.
+          if [ "$(git log -1 --format=%s)" = "ci: regenerate .github/actions.lock.json" ]; then
+            echo "::error::lockfile still drifts after a regeneration commit"
+            exit 1
+          fi
           # Renovate ignores commits from this exact address (gitIgnoredAuthors)
-          # and keeps managing its branch after the lockfile commit.
+          # and keeps managing its branch after the lockfile commit. No [skip ci]:
+          # the head commit must run the required checks.
           git -c user.name="github-actions[bot]" \
             -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -m "ci: regenerate .github/actions.lock.json [skip ci]"
+            commit -m "ci: regenerate .github/actions.lock.json"
           auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)
           echo "::add-mask::${auth}"
           git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth}" \
             push origin "HEAD:refs/heads/${BRANCH}"
+      # Advisories never trigger a regeneration, and they warn instead of
+      # failing: the tool's version matching flags releases that already ship
+      # the fix.
+      - name: Check action advisories
+        if: always()
+        continue-on-error: true
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
+        with:
+          mode: verify
+          skip-sha: "true"
+          skip-integrity: "true"
+          comment: "false"

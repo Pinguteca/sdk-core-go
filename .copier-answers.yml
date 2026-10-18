@@ -1,13 +1,13 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 05277a9
+_commit: v0.1.1
 _src_path: https://github.com/Pinguteca/sdk-scaffold.git
-
-description: Reusable Connect-Go interceptors for Pinguteca SDKs (auth, retry, breaker, idempotency, otel)
+description: Reusable Connect-Go interceptors for Pinguteca SDKs (auth, retry, breaker,
+    idempotency, otel)
 github_owner: Pinguteca
 harden_runner: true
 identity_domain: pinguteca.com
 languages:
-  - go
+- go
 license: Apache-2.0
 project_name: sdk-core-go
 public_repo: true

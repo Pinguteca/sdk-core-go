@@ -49,19 +49,24 @@ jobs:
           # Keep the token out of .git/config; only the push step gets it.
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
+      # Advisories are checked separately below, so only a real lockfile
+      # mismatch fails this step and leads to a regeneration.
       - name: Verify lockfile
+        id: verify
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: verify
+          skip-advisories: "true"
+          comment: "false"
       # Fix drift only on pull requests: main takes changes through pull requests,
       # so a push there just fails and asks for a lockfile PR.
       - name: Regenerate lockfile on failure
-        if: failure() && github.event_name == 'pull_request'
+        if: failure() && steps.verify.outcome == 'failure' && github.event_name == 'pull_request'
         uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: generate
       - name: Commit regenerated lockfile
-        if: failure() && github.event_name == 'pull_request'
+        if: failure() && steps.verify.outcome == 'failure' && github.event_name == 'pull_request'
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}
           BRANCH: ${{ github.head_ref || github.ref_name }}
@@ -84,3 +89,15 @@ jobs:
           echo "::add-mask::${auth}"
           git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth}" \
             push origin "HEAD:refs/heads/${BRANCH}"
+      # Advisories never trigger a regeneration, and they warn instead of
+      # failing: the tool's version matching flags releases that already ship
+      # the fix.
+      - name: Check action advisories
+        if: always()
+        continue-on-error: true
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
+        with:
+          mode: verify
+          skip-sha: "true"
+          skip-integrity: "true"
+          comment: "false"

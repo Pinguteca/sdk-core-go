@@ -12,7 +12,7 @@ HK_MISE = 1
 postinstall = "hk install --mise"
 
 [tools]
-hk = "2.5.0"
+hk = "2.6.0"
 pinact = "5.0.0"      # pin GitHub Actions to a SHA (hk pre-push)
 yamlfmt = "0.21.0"    # YAML formatter; also fails on YAML that does not parse
 jq = "1.8.2"          # JSON formatting (hk check-json)

@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"time"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 
 	sdkclock "github.com/Pinguteca/sdk-core-go/clock"
 )

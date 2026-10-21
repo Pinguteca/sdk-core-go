@@ -50,10 +50,9 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849249
 provenance = "github-attestations"
 
 [[tools.copier]]
-version = "9.18.2"
+version = "9.19.1"
 backend = "pypi:copier"
-specifiers = ["9.18.2"]
-uv = { path = ".mise/locks/mise.dev/copier/9.18.2", digest = "sha256:7c59cdd3c29c0eec7c32f84f65e36fb47f5b50c7640d0fa38df62d8a1bed6e84" }
+specifiers = ["9.19.1"]
 
 [[tools.hk]]
 version = "2.6.0"

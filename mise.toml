@@ -17,11 +17,11 @@ task.source_freshness_hash_contents = true
 # Tools shared by local dev and CI. Local-only tooling (git hooks, action
 # pinning) lives in mise.dev.toml. kingfisher sits here because the
 # secret-scan workflow runs `mise run secret:scan` under MISE_ENV=ci.
-kingfisher = "2.10.0"
+kingfisher = "v2.13.0"
 cocogitto = "7.0.0"
-syft = "1.54.0"
-go = "1.26.6"
-golangci-lint = "2.12.2"
+syft = "1.54.1"
+go = "1.27.2"
+golangci-lint = "2.14.0"
 
 [env]
 # Build with the Go mise installed. Under the default GOTOOLCHAIN=auto, a

@@ -86,7 +86,7 @@ jobs:
           npm config set -g minimumReleaseAge 30240
           npx --yes svgo@4 --multipass --recursive .
       - name: Install gitsign
-        uses: chainguard-dev/actions/setup-gitsign@84b1be4c638f12d4256ddddef17af98853b6d0d9 # v1.6.40
+        uses: chainguard-dev/actions/setup-gitsign@3403a578b543fd3f0debdaef9dd989ae54e3fcef # v1.6.41
       - name: Commit optimized SVGs
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}

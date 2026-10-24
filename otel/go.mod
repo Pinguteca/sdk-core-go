@@ -3,7 +3,7 @@ module github.com/Pinguteca/sdk-core-go/otel
 go 1.26.4
 
 require (
-	connectrpc.com/connect v1.21.0
+	connectrpc.com/connect v1.21.1
 	github.com/Pinguteca/sdk-core-go v0.1.1
 	github.com/google/uuid v1.6.0
 	go.opentelemetry.io/otel v1.47.0

@@ -1,5 +1,5 @@
-connectrpc.com/connect/v2 v2.0.0 h1:PVVpWl2Xv9dIWN2gijs4HK40NSnPFzLqCEEmZ8fCUQ8=
-connectrpc.com/connect/v2 v2.0.0/go.mod h1:N32OLrstcPUzkykFynnefFro3+xzSdOrZlK2jHmS/xo=
+connectrpc.com/connect/v2 v2.0.1 h1:WTAycxe87UqxSM5oxS30d1dalZ+C5xz8Ec8O6zVYkHQ=
+connectrpc.com/connect/v2 v2.0.1/go.mod h1:N32OLrstcPUzkykFynnefFro3+xzSdOrZlK2jHmS/xo=
 github.com/Pinguteca/sdk-core-go v0.1.1 h1:uZn0N4A3T88UqsZtsFU3HfkSpi0AsPi4XWgdlxesjc4=
 github.com/Pinguteca/sdk-core-go v0.1.1/go.mod h1:rKzyshqYaVzAiAChyNp4Im6WhSdAcsDDegBCF6g+3kI=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=

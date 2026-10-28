@@ -1,18 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-10-18T19:21:38.328Z",
+  "generated": "2026-10-28T02:38:28.699Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "e14015d583714f6e62063499dc959a02595150a1",
-        "sha": "e14015d583714f6e62063499dc959a02595150a1",
-        "integrity": "sha256-08f5cc3c59f56241a1a727dceec5668266196084a8b1bd91f917ccc64edef927",
-        "dependencies": []
-      },
-      {
-        "version": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
-        "sha": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
-        "integrity": "sha256-bb9426619fcdf51dc2562d52ea461a0ddd0c3733607badb76342e9104a1a4e50",
+        "version": "dc2769abcc0fcfbadfc1df54081c1608579ef6b2",
+        "sha": "dc2769abcc0fcfbadfc1df54081c1608579ef6b2",
+        "integrity": "sha256-2ab91e36eb8b7fb7e58e64a7f9a660028634e43ba79ff989eb12f533b10dc43e",
         "dependencies": []
       }
     ],
@@ -48,9 +42,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca",
-        "sha": "2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca",
-        "integrity": "sha256-b3a17b025b763cb4b96070fc7b91c92d472cee03416da5369cadee04481067ff",
+        "version": "fc42bcc7ddbf51124c30f95a877a0c5168a3bfde",
+        "sha": "fc42bcc7ddbf51124c30f95a877a0c5168a3bfde",
+        "integrity": "sha256-cf4dd908a72e9ceb16b4382131745277c892fad017b8537006ed592f751009c2",
         "dependencies": []
       }
     ],
@@ -64,37 +58,37 @@
     ],
     "github/codeql-action/upload-sarif": [
       {
-        "version": "cdf488f595d80d6e07e03d4674febd5ab45fa938",
-        "sha": "cdf488f595d80d6e07e03d4674febd5ab45fa938",
-        "integrity": "sha256-72828ba80b86ff33e00707304a7df6f8ce03d86064b3f5363b2945e06279e2b4",
+        "version": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+        "sha": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+        "integrity": "sha256-bf19b494344123a932d0c3059dc6093091e99daa01889f24bf917093a87fd556",
         "dependencies": []
       },
       {
-        "version": "24c54180a607b1449ed407dd24f251e4e9147c8d",
-        "sha": "24c54180a607b1449ed407dd24f251e4e9147c8d",
-        "integrity": "sha256-60150636d6d1b1dac05a685650c823d921cb3d477dc3d0477dd8f759aed7180f",
+        "version": "6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee",
+        "sha": "6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee",
+        "integrity": "sha256-59d8bf62156c1c18c65d5813ffbcc8fe4f8a6cf4096792879dd3f61250f03a34",
         "dependencies": []
       }
     ],
     "zizmorcore/zizmor-action": [
       {
-        "version": "cc914d7f3750a2d13d75c7f184a1060aa0e9d482",
-        "sha": "cc914d7f3750a2d13d75c7f184a1060aa0e9d482",
-        "integrity": "sha256-18c8a8eb8267b4f55c76d5a3d5589f6f0e1ab0f4dea77fa8504f5160b0f0f879",
+        "version": "85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e",
+        "sha": "85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e",
+        "integrity": "sha256-0cc14181df0e8295709cd499490773054e4a750653358603b0ffd2b8e8581379",
         "dependencies": [
           {
-            "ref": "github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938",
-            "sha": "cdf488f595d80d6e07e03d4674febd5ab45fa938",
-            "integrity": "sha256-72828ba80b86ff33e00707304a7df6f8ce03d86064b3f5363b2945e06279e2b4"
+            "ref": "github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+            "sha": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
+            "integrity": "sha256-bf19b494344123a932d0c3059dc6093091e99daa01889f24bf917093a87fd556"
           }
         ]
       }
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "a8ac3eea598697a830f7d8e701fc9fcbfde88974",
-        "sha": "a8ac3eea598697a830f7d8e701fc9fcbfde88974",
-        "integrity": "sha256-cc8e461bb1708dc64fc07dd29fac8033eaff180e76b62df4296cac08c7457262",
+        "version": "419a49378266e892f40c773b4f2fc6de9aa87499",
+        "sha": "419a49378266e892f40c773b4f2fc6de9aa87499",
+        "integrity": "sha256-c3a06f6c0b07c0cabc326435606ee561d8e045560832fb95861588415671b297",
         "dependencies": []
       }
     ],
@@ -253,9 +247,9 @@
     ],
     "ossf/scorecard-action": [
       {
-        "version": "2d1146689b8cda280b9bc96326124645441f03bc",
-        "sha": "2d1146689b8cda280b9bc96326124645441f03bc",
-        "integrity": "sha256-13765c3af43710d48aa8904f59985c2b2aa7a0c84370260732ae348b89b06714",
+        "version": "fa7117db83c52d787ae5a89f350999701505d78e",
+        "sha": "fa7117db83c52d787ae5a89f350999701505d78e",
+        "integrity": "sha256-3a13668a7e9ffaed3fb32347f1260ec57a9289e303ecc15a907e14ce3ad7627a",
         "dependencies": []
       }
     ],
@@ -269,9 +263,9 @@
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
-        "sha": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
-        "integrity": "sha256-ea4a3a4bc24798f661f935a77a8c84c47467cc73ce4e9e74bb015d5866e62594",
+        "version": "53668650c25af6e8864f1d1ddaa69ed4db4cdf09",
+        "sha": "53668650c25af6e8864f1d1ddaa69ed4db4cdf09",
+        "integrity": "sha256-c49cb8beded1c29a8fd2796e335b0befe97d4910736c95fd3655041699d8a58c",
         "dependencies": []
       }
     ],

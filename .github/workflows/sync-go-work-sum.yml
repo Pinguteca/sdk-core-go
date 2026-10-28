@@ -33,7 +33,7 @@ jobs:
       id-token: write # OIDC token for octo-sts to fetch a scoped repo token
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -59,7 +59,7 @@ jobs:
           filter: "blob:none"
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Install mise and tools
-        uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        uses: jdx/mise-action@fc42bcc7ddbf51124c30f95a877a0c5168a3bfde # v5.2.1
         with:
           experimental: true
           install: true

@@ -52,7 +52,7 @@ jobs:
       contents: write # commit optimized SVGs back to the branch
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
+        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -80,13 +80,13 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.21.0
+          node-version: 24.22.0
       - name: Run SVGO
         run: |
           npm config set -g minimumReleaseAge 30240
           npx --yes svgo@4 --multipass --recursive .
       - name: Install gitsign
-        uses: chainguard-dev/actions/setup-gitsign@84b1be4c638f12d4256ddddef17af98853b6d0d9 # v1.6.40
+        uses: chainguard-dev/actions/setup-gitsign@53668650c25af6e8864f1d1ddaa69ed4db4cdf09 # v1.6.42
       - name: Commit optimized SVGs
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}

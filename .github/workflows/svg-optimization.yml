@@ -80,13 +80,13 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24.22.0
+          node-version: 24.22.1
       - name: Run SVGO
         run: |
           npm config set -g minimumReleaseAge 30240
           npx --yes svgo@4 --multipass --recursive .
       - name: Install gitsign
-        uses: chainguard-dev/actions/setup-gitsign@53668650c25af6e8864f1d1ddaa69ed4db4cdf09 # v1.6.42
+        uses: chainguard-dev/actions/setup-gitsign@e94104128fff55b3c5e1831a8bbbf198603156f9 # v1.7.1
       - name: Commit optimized SVGs
         env:
           TOKEN: ${{ steps.octo-sts.outputs.token }}

@@ -3,9 +3,7 @@ module github.com/Pinguteca/sdk-core-go/compression
 go 1.26.0
 
 require (
-	connectrpc.com/connect v1.21.1
+	connectrpc.com/connect/v2 v2.0.2
 	github.com/andybalholm/brotli v1.2.7
 	github.com/klauspost/compress v1.20.3
 )
-
-require google.golang.org/protobuf v1.36.11 // indirect

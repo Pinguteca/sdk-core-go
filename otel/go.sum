@@ -1,5 +1,7 @@
-connectrpc.com/connect v1.21.1 h1:h2kacdlzXpZU2OQFSv98xkjYXNUSr/ptxmGVbS/+CRM=
-connectrpc.com/connect v1.21.1/go.mod h1:fhMcVJ5w6r/yTYhnkEbW6+sIF7OZ5Ay7KYgmfebh2ek=
+connectrpc.com/connect v1.20.0 h1:6TNDAB+WeNd2uolWNlYczB5E0KNNaVMNUEx8JEUsPmQ=
+connectrpc.com/connect v1.20.0/go.mod h1:A2ygJrukXwWy32vkCAAHNVguZrqZ+jeZ9rGRnGR4dN4=
+connectrpc.com/connect/v2 v2.0.2 h1:PoPDmOlhc46elsuCdKCKTxjNBb3HJlKF+s/sP2oucPw=
+connectrpc.com/connect/v2 v2.0.2/go.mod h1:N32OLrstcPUzkykFynnefFro3+xzSdOrZlK2jHmS/xo=
 github.com/Pinguteca/sdk-core-go v0.1.1 h1:uZn0N4A3T88UqsZtsFU3HfkSpi0AsPi4XWgdlxesjc4=
 github.com/Pinguteca/sdk-core-go v0.1.1/go.mod h1:rKzyshqYaVzAiAChyNp4Im6WhSdAcsDDegBCF6g+3kI=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=

@@ -13,12 +13,12 @@ postinstall = "hk install --mise"
 
 [tools]
 hk = "2.8.1"
-pinact = "5.0.0"      # pin GitHub Actions to a SHA (hk pre-push)
+pinact = "5.0.1"      # pin GitHub Actions to a SHA (hk pre-push)
 yamlfmt = "0.21.0"    # YAML formatter; also fails on YAML that does not parse
 jq = "1.8.2"          # JSON formatting (hk check-json)
 # Workflow linters for the hk pre-push hook. CI runs its own copies through the
 # zizmor and reviewdog actions in lint-gha, so these are local-only here.
 actionlint = "1.7.12"
-zizmor = "1.30.1"
+zizmor = "1.31.1"
 # Pulls template changes with `copier update`.
-copier = "9.18.2"
+copier = "9.19.1"

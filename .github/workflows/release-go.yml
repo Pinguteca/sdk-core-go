@@ -29,7 +29,7 @@ jobs:
       hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -51,7 +51,7 @@ jobs:
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Install mise and tools
-        uses: jdx/mise-action@fc42bcc7ddbf51124c30f95a877a0c5168a3bfde # v5.2.1
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
         with:
           experimental: true
           install: true
@@ -104,7 +104,7 @@ jobs:
           cd out
           sha256sum "sdk-core-go-${SLUG}.tar.gz" "sbom/sdk-core-go-${SLUG}.cdx.json" > checksums.txt
       - name: Install cosign
-        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
       - name: Sign checksums
         run: |
           cd out

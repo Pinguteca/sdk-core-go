@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	sdkotel "github.com/Pinguteca/sdk-core-go/otel"

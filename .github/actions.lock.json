@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-11-13T06:01:44.242Z",
+  "generated": "2026-11-20T05:30:34.979Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "46b06cea07f9e64621fdf066ba77ac6915163d43",
-        "sha": "46b06cea07f9e64621fdf066ba77ac6915163d43",
-        "integrity": "sha256-ad369fee329ff79f2312e4657b99b78b8fce09a87e6c63c1ddbcb025cce060db",
+        "version": "1d88384fd173af6ecb012dfd0264a306b711241a",
+        "sha": "1d88384fd173af6ecb012dfd0264a306b711241a",
+        "integrity": "sha256-a229c75904ff8704b9458ffd527f400a06580abde4f304c0d30d8a49626b7eee",
         "dependencies": []
       }
     ],
@@ -42,9 +42,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "f5be966e4a917d54244728e6a5fdcd1d93a35e6c",
-        "sha": "f5be966e4a917d54244728e6a5fdcd1d93a35e6c",
-        "integrity": "sha256-2803d0c41baad6aa1b7623893fcd179b9daba6a09e0c9ea0bcf29ccb192857ef",
+        "version": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
+        "sha": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
+        "integrity": "sha256-dbd3dc3ecc48fb421afec71b762e3cd27d5da3be2985cd2809634f85a8fbf0e6",
         "dependencies": []
       }
     ],
@@ -86,9 +86,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "619a81ec64ff8c0211cd6146eb2b21e8f1d7f440",
-        "sha": "619a81ec64ff8c0211cd6146eb2b21e8f1d7f440",
-        "integrity": "sha256-c912206b6e2c5921ef612f88004754359fde606a27387a0593e10b5a85cfeb09",
+        "version": "ae857e78c1b42b3d0a49637181b09d3d56d402b4",
+        "sha": "ae857e78c1b42b3d0a49637181b09d3d56d402b4",
+        "integrity": "sha256-e59025e6790c4eb04c0a2dd64b6b49a2ab5dd8b9ec7731b18ae0de5aaa506177",
         "dependencies": []
       }
     ],
@@ -263,9 +263,9 @@
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "794a2c44abbbd7b3a186db97b359270e4105448f",
-        "sha": "794a2c44abbbd7b3a186db97b359270e4105448f",
-        "integrity": "sha256-399cd0d6834656f3b2cc7993419063d05be2d3c478ca8dcad2758084513a7083",
+        "version": "a25ce483d875a46f4c837e85e32e0fda602693f5",
+        "sha": "a25ce483d875a46f4c837e85e32e0fda602693f5",
+        "integrity": "sha256-a865a6f8403e35b3933037668b1ddebd30a1021b4d5d0c4a384d7650eb2eee47",
         "dependencies": []
       }
     ],

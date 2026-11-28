@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-11-20T05:30:34.979Z",
+  "generated": "2026-11-27T17:05:35.761Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "1d88384fd173af6ecb012dfd0264a306b711241a",
-        "sha": "1d88384fd173af6ecb012dfd0264a306b711241a",
-        "integrity": "sha256-a229c75904ff8704b9458ffd527f400a06580abde4f304c0d30d8a49626b7eee",
+        "version": "aebdcf6156ab6691adf63218240e476564a1ed4c",
+        "sha": "aebdcf6156ab6691adf63218240e476564a1ed4c",
+        "integrity": "sha256-1d98e5bc8a7d12833929cd16debfd9025e984748431c5dd6df9fe9570c923b93",
         "dependencies": []
       }
     ],
@@ -42,9 +42,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
-        "sha": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
-        "integrity": "sha256-dbd3dc3ecc48fb421afec71b762e3cd27d5da3be2985cd2809634f85a8fbf0e6",
+        "version": "90f833d396d0cc3674b631d2d225e306476c303a",
+        "sha": "90f833d396d0cc3674b631d2d225e306476c303a",
+        "integrity": "sha256-904f4345d4d64284d877497c31d62f1343f3402e6f867ec85689843f8f56e08e",
         "dependencies": []
       }
     ],
@@ -64,9 +64,9 @@
         "dependencies": []
       },
       {
-        "version": "33d7b85da1a04171e211befe2c739303b9a4c066",
-        "sha": "33d7b85da1a04171e211befe2c739303b9a4c066",
-        "integrity": "sha256-e64743d82547fdf9590b5df72cefdd738e99e84871faf1fdceadd91f0a0f0c51",
+        "version": "1bd86f2fdb4b86187fa4059f16f31a3202acc9ea",
+        "sha": "1bd86f2fdb4b86187fa4059f16f31a3202acc9ea",
+        "integrity": "sha256-5446086f1017afc8a16865476cf79f267f0e69a853467b07b04beaabe6418bba",
         "dependencies": []
       }
     ],
@@ -247,9 +247,9 @@
     ],
     "ossf/scorecard-action": [
       {
-        "version": "fa7117db83c52d787ae5a89f350999701505d78e",
-        "sha": "fa7117db83c52d787ae5a89f350999701505d78e",
-        "integrity": "sha256-3a13668a7e9ffaed3fb32347f1260ec57a9289e303ecc15a907e14ce3ad7627a",
+        "version": "23f22cd43608bae7a1f1fa2603d7314dee9538a5",
+        "sha": "23f22cd43608bae7a1f1fa2603d7314dee9538a5",
+        "integrity": "sha256-d41b25a009a40a583bcf03750c5df6348cab426fac41f64eb9fc3619a4077b43",
         "dependencies": []
       }
     ],
@@ -263,9 +263,9 @@
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "a25ce483d875a46f4c837e85e32e0fda602693f5",
-        "sha": "a25ce483d875a46f4c837e85e32e0fda602693f5",
-        "integrity": "sha256-a865a6f8403e35b3933037668b1ddebd30a1021b4d5d0c4a384d7650eb2eee47",
+        "version": "d496b2ab65497cac13d77ccd5038b8aae7e8c43b",
+        "sha": "d496b2ab65497cac13d77ccd5038b8aae7e8c43b",
+        "integrity": "sha256-61ccbbc8ad52cfbbbfc722577d852c9a0e53e2f5172b91ae635c021902fbe53d",
         "dependencies": []
       }
     ],

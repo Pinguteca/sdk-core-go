@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 )
 
 // UUIDv7 layout constants per RFC 9562 section 5.7. Named so the static

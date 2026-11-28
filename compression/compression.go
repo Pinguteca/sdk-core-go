@@ -25,7 +25,7 @@ import (
 	"fmt"
 	"io"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 	"github.com/andybalholm/brotli"
 	"github.com/klauspost/compress/zstd"
 )

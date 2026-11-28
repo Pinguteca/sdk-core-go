@@ -20,7 +20,7 @@ import (
 	"strings"
 	"time"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 	"go.opentelemetry.io/otel/trace"
 
 	sdkerrors "github.com/Pinguteca/sdk-core-go/errors"

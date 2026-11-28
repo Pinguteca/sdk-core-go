@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 
 	sdkerrors "github.com/Pinguteca/sdk-core-go/errors"
 )
